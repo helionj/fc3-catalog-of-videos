@@ -4,6 +4,7 @@ import com.helion.admin.catalog.domain.AgregateRoot;
 import com.helion.admin.catalog.domain.validation.ValidationHandler;
 
 import java.time.Instant;
+import java.util.Objects;
 
 public class Category extends AgregateRoot<CategoryID> implements Cloneable{
 
@@ -26,8 +27,8 @@ public class Category extends AgregateRoot<CategoryID> implements Cloneable{
         this.name = aName;
         this.description = aDescription;
         this.isActive = isActive;
-        this.createdAt = aCreatedAt;
-        this.updatedAt = aUpdatedAt;
+        this.createdAt = Objects.requireNonNull(aCreatedAt, "'updatedAt' not be null");
+        this.updatedAt = Objects.requireNonNull(aUpdatedAt,  "'createdAt' not be null");
         this.deletedAt = aDeletedAt;
     }
 

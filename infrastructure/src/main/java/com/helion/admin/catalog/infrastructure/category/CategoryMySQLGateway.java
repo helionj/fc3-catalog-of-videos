@@ -5,6 +5,7 @@ import com.helion.admin.catalog.domain.category.CategoryGateway;
 import com.helion.admin.catalog.domain.category.CategoryID;
 import com.helion.admin.catalog.domain.category.CategorySearchQuery;
 import com.helion.admin.catalog.domain.category.pagination.Pagination;
+import com.helion.admin.catalog.infrastructure.category.persistence.CategoryJpaEntity;
 import com.helion.admin.catalog.infrastructure.category.persistence.CategoryRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +21,8 @@ public class CategoryMySQLGateway implements CategoryGateway {
     }
 
     @Override
-    public Category create(Category aCategory) {
-        return null;
+    public Category create(final Category aCategory) {
+        return this.repository.saveAndFlush(CategoryJpaEntity.from(aCategory)).toAgregate();
     }
 
     @Override
