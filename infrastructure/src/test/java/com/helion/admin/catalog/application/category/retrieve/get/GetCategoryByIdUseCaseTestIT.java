@@ -1,36 +1,33 @@
 package com.helion.admin.catalog.application.category.retrieve.get;
 
+import com.helion.admin.catalog.IntegrationTest;
 import com.helion.admin.catalog.domain.category.Category;
 import com.helion.admin.catalog.domain.category.CategoryGateway;
 import com.helion.admin.catalog.domain.category.CategoryID;
 import com.helion.admin.catalog.domain.exceptions.DomainException;
+import com.helion.admin.catalog.infrastructure.category.persistence.CategoryJpaEntity;
+import com.helion.admin.catalog.infrastructure.category.persistence.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 
-import java.util.Optional;
+import java.util.Arrays;
 
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
-public class GetCategoryByIdUseCaseTest {
-    @InjectMocks
-    private DefaultGetCategoryByIdUseCase useCase;
+@IntegrationTest
+public class GetCategoryByIdUseCaseTestIT {
 
-    @Mock
+    @Autowired
+    private GetCategoryByIdUseCase useCase;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @SpyBean
     private CategoryGateway categoryGateway;
-
-    @BeforeEach
-    void cleanUp(){
-        Mockito.reset(categoryGateway);
-    }
 
     @Test
     public void givenAnValidId_whenCallsGetCategoryById_shouldReturnsACategory(){
@@ -41,7 +38,9 @@ public class GetCategoryByIdUseCaseTest {
         final var aCategory = Category.newCategory(expectedName, expectedDescription, isActive);
         final var expectedId = aCategory.getId();
 
-        when(categoryGateway.findById(eq(expectedId))).thenReturn(Optional.of(aCategory.clone()));
+        Assertions.assertEquals(0, categoryRepository.count());
+        save(aCategory);
+        Assertions.assertEquals(1, categoryRepository.count());
         final var actualCategory =  useCase.execute(expectedId.getValue());
 
         Assertions.assertEquals(expectedId, actualCategory.id());
@@ -61,22 +60,33 @@ public class GetCategoryByIdUseCaseTest {
 
         final var expectedId = CategoryID.from("123");
         final var expectedErrorMessage = "Category ID 123 was not found";
-        when(categoryGateway.findById(eq(expectedId))).thenReturn(Optional.empty());
+
         final var actualException = Assertions.assertThrows(DomainException.class,
                 () -> useCase.execute(expectedId.getValue()));
 
         Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());
     }
 
+    @Test
     public void givenAnValidId_whenGatewayThrowsException_shouldReturnsException(){
         final var aCategory = Category.newCategory("Movies", null, true);
-        final var expectedErrorMessage = "GatewayError";
+        final var expectedErrorMessage = "Gateway Error";
         final var expectedId = aCategory.getId();
-        when(categoryGateway.findById(eq(expectedId))).thenThrow(new IllegalStateException("Gateway Error"));
+
+        Mockito.doThrow(new IllegalStateException("Gateway Error")).when(categoryGateway).findById(expectedId);
 
         final var actualException = Assertions.assertThrows(IllegalStateException.class, () ->  useCase.execute(expectedId.getValue()));
         Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());
         Mockito.verify(categoryGateway, times(1)).findById(expectedId);
 
     }
+
+    private void save(final Category... aCategory) {
+        categoryRepository.saveAllAndFlush(
+                Arrays.stream(aCategory)
+                        .map(CategoryJpaEntity::from)
+                        .toList()
+        );
+    }
+
 }

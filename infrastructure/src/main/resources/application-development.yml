@@ -4,6 +4,8 @@ mysql:
   schema: adm_videos
   url: localhost:3306
 
+
+
 server:
   port: 8080
   undertow:

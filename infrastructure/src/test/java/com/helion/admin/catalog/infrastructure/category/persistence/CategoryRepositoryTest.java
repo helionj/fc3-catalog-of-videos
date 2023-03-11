@@ -1,7 +1,7 @@
 package com.helion.admin.catalog.infrastructure.category.persistence;
 
 import com.helion.admin.catalog.domain.category.Category;
-import com.helion.admin.catalog.infrastructure.MySQLGatewayTest;
+import com.helion.admin.catalog.MySQLGatewayTest;
 import org.hibernate.PropertyValueException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
