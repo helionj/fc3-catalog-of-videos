@@ -5,6 +5,7 @@ import com.helion.admin.catalog.domain.category.Category;
 import com.helion.admin.catalog.domain.category.CategoryGateway;
 import com.helion.admin.catalog.domain.category.CategoryID;
 import com.helion.admin.catalog.domain.exceptions.DomainException;
+import com.helion.admin.catalog.domain.exceptions.NotFoundException;
 import com.helion.admin.catalog.infrastructure.category.persistence.CategoryJpaEntity;
 import com.helion.admin.catalog.infrastructure.category.persistence.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
@@ -59,9 +60,9 @@ public class GetCategoryByIdUseCaseTestIT {
     public void givenAiNValidId_whenCallsGetCategoryById_shouldReturnsNotFound(){
 
         final var expectedId = CategoryID.from("123");
-        final var expectedErrorMessage = "Category ID 123 was not found";
+        final var expectedErrorMessage = "Category with ID 123 was not found";
 
-        final var actualException = Assertions.assertThrows(DomainException.class,
+        final var actualException = Assertions.assertThrows(NotFoundException.class,
                 () -> useCase.execute(expectedId.getValue()));
 
         Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());

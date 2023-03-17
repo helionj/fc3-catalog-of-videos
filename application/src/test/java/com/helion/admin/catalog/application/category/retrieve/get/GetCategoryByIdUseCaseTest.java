@@ -4,6 +4,7 @@ import com.helion.admin.catalog.domain.category.Category;
 import com.helion.admin.catalog.domain.category.CategoryGateway;
 import com.helion.admin.catalog.domain.category.CategoryID;
 import com.helion.admin.catalog.domain.exceptions.DomainException;
+import com.helion.admin.catalog.domain.exceptions.NotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,17 +61,18 @@ public class GetCategoryByIdUseCaseTest {
     public void givenAiNValidId_whenCallsGetCategoryById_shouldReturnsNotFound(){
 
         final var expectedId = CategoryID.from("123");
-        final var expectedErrorMessage = "Category ID 123 was not found";
+        final var expectedErrorMessage = "Category with ID 123 was not found";
         when(categoryGateway.findById(eq(expectedId))).thenReturn(Optional.empty());
-        final var actualException = Assertions.assertThrows(DomainException.class,
+        final var actualException = Assertions.assertThrows(NotFoundException.class,
                 () -> useCase.execute(expectedId.getValue()));
 
         Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());
     }
 
+    @Test
     public void givenAnValidId_whenGatewayThrowsException_shouldReturnsException(){
         final var aCategory = Category.newCategory("Movies", null, true);
-        final var expectedErrorMessage = "GatewayError";
+        final var expectedErrorMessage = "Gateway Error";
         final var expectedId = aCategory.getId();
         when(categoryGateway.findById(eq(expectedId))).thenThrow(new IllegalStateException("Gateway Error"));
 

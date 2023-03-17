@@ -4,6 +4,7 @@ import com.helion.admin.catalog.IntegrationTest;
 import com.helion.admin.catalog.domain.category.Category;
 import com.helion.admin.catalog.domain.category.CategoryGateway;
 import com.helion.admin.catalog.domain.exceptions.DomainException;
+import com.helion.admin.catalog.domain.exceptions.NotFoundException;
 import com.helion.admin.catalog.infrastructure.category.persistence.CategoryJpaEntity;
 import com.helion.admin.catalog.infrastructure.category.persistence.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
@@ -48,7 +49,7 @@ public class UpdateCategoryUseCaseTestIT {
         Assertions.assertNotNull(actualOutput);
         Assertions.assertNotNull(actualOutput.id());
 
-        final var actualCategory = categoryRepository.findById(actualOutput.id().getValue()).get();
+        final var actualCategory = categoryRepository.findById(actualOutput.id()).get();
 
         Assertions.assertEquals(expectedName, actualCategory.getName());
         Assertions.assertEquals(expectedDescription, actualCategory.getDescription());
@@ -102,7 +103,7 @@ public class UpdateCategoryUseCaseTestIT {
         Assertions.assertNotNull(actualOutput);
         Assertions.assertNotNull(actualOutput.id());
 
-        final var actualCategory = categoryRepository.findById(actualOutput.id().getValue()).get();
+        final var actualCategory = categoryRepository.findById(actualOutput.id()).get();
 
         Assertions.assertEquals(expectedName, actualCategory.getName());
         Assertions.assertEquals(expectedDescription, actualCategory.getDescription());
@@ -153,16 +154,16 @@ public class UpdateCategoryUseCaseTestIT {
         final var expectedDescription = "A categoria mais assistida";
         final var expectedIsActive = false;
         final var expectedId = "123";
-        final var expectedErrorMessage = "Category ID %s was not found".formatted(expectedId);
+        final var expectedErrorMessage = "Category with ID %s was not found".formatted(expectedId);
         final var expectedErrorCount = 1;
 
         final var aCommand = UpdateCategoryCommand.with(expectedId, expectedName, expectedDescription, expectedIsActive);
 
 
 
-        final var actualException = Assertions.assertThrows(DomainException.class, () -> useCase.execute(aCommand));
-        Assertions.assertEquals(expectedErrorMessage, actualException.getErrors().get(0).message());
-        Assertions.assertEquals(expectedErrorCount, actualException.getErrors().size());
+        final var actualException = Assertions.assertThrows(NotFoundException.class, () -> useCase.execute(aCommand));
+        Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());
+
 
 
     }

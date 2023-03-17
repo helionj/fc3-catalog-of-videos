@@ -4,6 +4,7 @@ import com.helion.admin.catalog.domain.category.Category;
 import com.helion.admin.catalog.domain.category.CategoryGateway;
 import com.helion.admin.catalog.domain.category.CategoryID;
 import com.helion.admin.catalog.domain.exceptions.DomainException;
+import com.helion.admin.catalog.domain.exceptions.NotFoundException;
 import com.helion.admin.catalog.domain.validation.Error;
 import com.helion.admin.catalog.domain.validation.handler.Notification;
 import io.vavr.API;
@@ -47,7 +48,7 @@ public class DefaultUpdateCategoryUseCase extends UpdateCategoryUseCase {
     }
 
     private Supplier<DomainException> notFound(final CategoryID anId) {
-        return () -> DomainException.with(new Error("Category ID %s was not found".formatted(anId.getValue())));
+        return () -> NotFoundException.with(Category.class, anId);
     }
 
 }

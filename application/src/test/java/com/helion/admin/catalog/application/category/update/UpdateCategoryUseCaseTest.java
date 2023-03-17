@@ -5,6 +5,7 @@ import com.helion.admin.catalog.domain.category.Category;
 import com.helion.admin.catalog.domain.category.CategoryGateway;
 import com.helion.admin.catalog.domain.category.CategoryID;
 import com.helion.admin.catalog.domain.exceptions.DomainException;
+import com.helion.admin.catalog.domain.exceptions.NotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -164,7 +165,7 @@ public class UpdateCategoryUseCaseTest {
         final var expectedDescription = "A categoria mais assistida";
         final var expectedIsActive = false;
         final var expectedId = "123";
-        final var expectedErrorMessage = "Category ID %s was not found".formatted(expectedId);
+        final var expectedErrorMessage = "Category with ID %s was not found".formatted(expectedId);
         final var expectedErrorCount = 1;
 
         final var aCommand = UpdateCategoryCommand.with(expectedId, expectedName, expectedDescription, expectedIsActive);
@@ -174,9 +175,8 @@ public class UpdateCategoryUseCaseTest {
 
 
 
-        final var actualException = Assertions.assertThrows(DomainException.class, () -> useCase.execute(aCommand));
-        Assertions.assertEquals(expectedErrorMessage, actualException.getErrors().get(0).message());
-        Assertions.assertEquals(expectedErrorCount, actualException.getErrors().size());
+        final var actualException = Assertions.assertThrows(NotFoundException.class, () -> useCase.execute(aCommand));
+        Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());
 
         Mockito.verify(categoryGateway, times(1)).findById(eq(CategoryID.from(expectedId)));
         Mockito.verify(categoryGateway, times(0)).update(any());
