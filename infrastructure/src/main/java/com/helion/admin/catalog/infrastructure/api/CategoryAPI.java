@@ -1,9 +1,10 @@
 package com.helion.admin.catalog.infrastructure.api;
 
 import com.helion.admin.catalog.domain.category.pagination.Pagination;
-import com.helion.admin.catalog.infrastructure.category.models.CategoryApiOutput;
-import com.helion.admin.catalog.infrastructure.category.models.CreateCategoryApiInput;
-import com.helion.admin.catalog.infrastructure.category.models.UpdateCategoryApiInput;
+import com.helion.admin.catalog.infrastructure.category.models.CategoryListResponse;
+import com.helion.admin.catalog.infrastructure.category.models.CategoryResponse;
+import com.helion.admin.catalog.infrastructure.category.models.CreateCategoryRequest;
+import com.helion.admin.catalog.infrastructure.category.models.UpdateCategoryRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -27,7 +28,7 @@ public interface CategoryAPI {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    ResponseEntity<?> createCategory(@RequestBody CreateCategoryApiInput input);
+    ResponseEntity<?> createCategory(@RequestBody CreateCategoryRequest input);
 
     @Operation(summary = "List all categories paginated")
     @ApiResponses(value= {
@@ -36,7 +37,7 @@ public interface CategoryAPI {
             @ApiResponse(responseCode= "500", description = "An internal server error was thrown"),
     })
     @GetMapping
-    Pagination<?> listCategories(
+    Pagination<CategoryListResponse> listCategories(
             @RequestParam(name="search", required= false, defaultValue= "") final String search,
             @RequestParam(name="page", required= false, defaultValue= "0") final int page,
             @RequestParam(name="perPage", required= false, defaultValue= "10") final int perPage,
@@ -55,7 +56,7 @@ public interface CategoryAPI {
             @ApiResponse(responseCode= "404", description = "Category was not found"),
             @ApiResponse(responseCode= "500", description = "An internal server error was thrown"),
     })
-    CategoryApiOutput getById(@PathVariable(name="id") String id);
+    CategoryResponse getById(@PathVariable(name="id") String id);
 
     @PutMapping(
             value ="{id}",
@@ -67,5 +68,19 @@ public interface CategoryAPI {
             @ApiResponse(responseCode= "404", description = "Category was not found"),
             @ApiResponse(responseCode= "500", description = "An internal server error was thrown"),
     })
-    ResponseEntity<?> updateById(@PathVariable(name="id") String id, @RequestBody UpdateCategoryApiInput input);
+    ResponseEntity<?> updateById(@PathVariable(name="id") String id, @RequestBody UpdateCategoryRequest input);
+
+    @DeleteMapping(
+            value ="{id}",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Delete a category by it's identifier")
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiResponses(value= {
+            @ApiResponse(responseCode= "204", description = "Category deleted successfully"),
+            @ApiResponse(responseCode= "404", description = "Category was not found"),
+            @ApiResponse(responseCode= "500", description = "An internal server error was thrown"),
+    })
+    void deleteById(@PathVariable(name="id") String id);
 }

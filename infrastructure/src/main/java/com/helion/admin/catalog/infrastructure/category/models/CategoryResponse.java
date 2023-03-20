@@ -1,11 +1,10 @@
 package com.helion.admin.catalog.infrastructure.category.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.helion.admin.catalog.application.category.retrieve.get.CategoryOutput;
 
 import java.time.Instant;
 
-public record CategoryApiOutput(
+public record CategoryResponse(
         @JsonProperty("id") String id,
         @JsonProperty("name") String name,
         @JsonProperty("description")String description,
