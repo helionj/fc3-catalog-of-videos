@@ -3,7 +3,7 @@ package com.helion.admin.catalog.infrastructure.category;
 import com.helion.admin.catalog.domain.category.Category;
 import com.helion.admin.catalog.domain.category.CategoryGateway;
 import com.helion.admin.catalog.domain.category.CategoryID;
-import com.helion.admin.catalog.domain.category.CategorySearchQuery;
+import com.helion.admin.catalog.domain.category.pagination.SearchQuery;
 import com.helion.admin.catalog.domain.category.pagination.Pagination;
 import com.helion.admin.catalog.infrastructure.category.persistence.CategoryJpaEntity;
 import com.helion.admin.catalog.infrastructure.category.persistence.CategoryRepository;
@@ -13,10 +13,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.Optional;
 
 @Service
@@ -53,7 +49,7 @@ public class CategoryMySQLGateway implements CategoryGateway {
     }
 
     @Override
-    public Pagination<Category> findAll(CategorySearchQuery aQuery) {
+    public Pagination<Category> findAll(SearchQuery aQuery) {
 
         //Paginação
         final var page = PageRequest.of(

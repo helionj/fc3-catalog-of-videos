@@ -1,5 +1,6 @@
 package com.helion.admin.catalog.domain.category;
 
+import com.helion.admin.catalog.domain.category.pagination.SearchQuery;
 import com.helion.admin.catalog.domain.category.pagination.Pagination;
 
 import java.util.Optional;
@@ -14,5 +15,5 @@ public interface CategoryGateway {
 
     Category update(Category aCategory);
 
-    Pagination<Category> findAll(CategorySearchQuery aQuery);
+    Pagination<Category> findAll(SearchQuery aQuery);
 }

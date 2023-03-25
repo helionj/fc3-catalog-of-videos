@@ -2,7 +2,7 @@ package com.helion.admin.catalog.application.category.retrieve.list;
 
 import com.helion.admin.catalog.IntegrationTest;
 import com.helion.admin.catalog.domain.category.Category;
-import com.helion.admin.catalog.domain.category.CategorySearchQuery;
+import com.helion.admin.catalog.domain.category.pagination.SearchQuery;
 import com.helion.admin.catalog.infrastructure.category.persistence.CategoryJpaEntity;
 import com.helion.admin.catalog.infrastructure.category.persistence.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
@@ -50,7 +50,7 @@ public class ListCategoryUseCaseTestIT {
         final var expectedItemsCount = 0;
         final var expectedTotal = 0;
 
-        final var aQuery = new CategorySearchQuery(
+        final var aQuery = new SearchQuery(
                 expectedPage, expectedPerPage,expectedTerms,expectedSort,expectedDirection
         );
         final var actualResult = useCase.execute(aQuery);
@@ -84,7 +84,7 @@ public class ListCategoryUseCaseTestIT {
         final var expectedDirection = "asc";
 
 
-        final var aQuery = new CategorySearchQuery(
+        final var aQuery = new SearchQuery(
                 expectedPage, expectedPerPage,expectedTerms,expectedSort,expectedDirection
         );
         final var actualResult = useCase.execute(aQuery);
@@ -118,7 +118,7 @@ public class ListCategoryUseCaseTestIT {
 
 
 
-        final var aQuery = new CategorySearchQuery(
+        final var aQuery = new SearchQuery(
                 expectedPage, expectedPerPage,expectedTerms,expectedSort,expectedDirection
         );
         final var actualResult = useCase.execute(aQuery);
@@ -151,7 +151,7 @@ public class ListCategoryUseCaseTestIT {
 
 
 
-        final var aQuery = new CategorySearchQuery(
+        final var aQuery = new SearchQuery(
                 expectedPage, expectedPerPage,expectedTerms,expectedSort,expectedDirection
         );
         final var actualResult = useCase.execute(aQuery);

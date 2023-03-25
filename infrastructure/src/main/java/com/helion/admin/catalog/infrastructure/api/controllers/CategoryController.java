@@ -9,7 +9,7 @@ import com.helion.admin.catalog.application.category.retrieve.list.ListCategorie
 import com.helion.admin.catalog.application.category.update.UpdateCategoryCommand;
 import com.helion.admin.catalog.application.category.update.UpdateCategoryOutput;
 import com.helion.admin.catalog.application.category.update.UpdateCategoryUseCase;
-import com.helion.admin.catalog.domain.category.CategorySearchQuery;
+import com.helion.admin.catalog.domain.category.pagination.SearchQuery;
 import com.helion.admin.catalog.domain.category.pagination.Pagination;
 import com.helion.admin.catalog.domain.validation.handler.Notification;
 import com.helion.admin.catalog.infrastructure.api.CategoryAPI;
@@ -75,7 +75,7 @@ public class CategoryController implements CategoryAPI {
             int perPage,
             String sort,
             String direction) {
-        return listCategoriesUseCase.execute(new CategorySearchQuery(page, perPage, search, sort, direction))
+        return listCategoriesUseCase.execute(new SearchQuery(page, perPage, search, sort, direction))
                 .map(CategoryApiPresenter::present);
     }
 

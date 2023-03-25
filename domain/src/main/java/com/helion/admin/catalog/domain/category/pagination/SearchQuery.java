@@ -1,6 +1,6 @@
-package com.helion.admin.catalog.domain.category;
+package com.helion.admin.catalog.domain.category.pagination;
 
-public record CategorySearchQuery(
+public record SearchQuery(
         int page,
         int perPage,
         String terms,

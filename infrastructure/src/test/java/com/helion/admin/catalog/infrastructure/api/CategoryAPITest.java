@@ -13,7 +13,7 @@ import com.helion.admin.catalog.application.category.update.UpdateCategoryOutput
 import com.helion.admin.catalog.application.category.update.UpdateCategoryUseCase;
 import com.helion.admin.catalog.domain.category.Category;
 import com.helion.admin.catalog.domain.category.CategoryID;
-import com.helion.admin.catalog.domain.category.CategorySearchQuery;
+import com.helion.admin.catalog.domain.category.pagination.SearchQuery;
 import com.helion.admin.catalog.domain.category.pagination.Pagination;
 import com.helion.admin.catalog.domain.exceptions.DomainException;
 import com.helion.admin.catalog.domain.exceptions.NotFoundException;
@@ -345,7 +345,7 @@ public class CategoryAPITest {
 
         final var expectedItems = List.of(CategoryListOutput.from(aCategory));
 
-        final var aQuery = new CategorySearchQuery(
+        final var aQuery = new SearchQuery(
                 expectedPage, expectedPerPage,expectedTerms,expectedSort,expectedDirection
         );
 
