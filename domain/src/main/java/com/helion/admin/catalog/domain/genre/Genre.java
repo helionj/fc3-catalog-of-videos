@@ -1,6 +1,7 @@
 package com.helion.admin.catalog.domain.genre;
 
 import com.helion.admin.catalog.domain.AgregateRoot;
+import com.helion.admin.catalog.domain.category.Category;
 import com.helion.admin.catalog.domain.category.CategoryID;
 import com.helion.admin.catalog.domain.exceptions.NotificationException;
 import com.helion.admin.catalog.domain.utils.InstantUtils;
@@ -13,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class Genre extends AgregateRoot<GenreID> {
+public class Genre extends AgregateRoot<GenreID> implements Cloneable {
 
     private String name;
     private boolean isActive;
@@ -181,5 +182,14 @@ public class Genre extends AgregateRoot<GenreID> {
             this.updatedAt= InstantUtils.now();
         }
         return this;
+    }
+
+    @Override
+    public Genre clone() {
+        try {
+            return (Genre) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

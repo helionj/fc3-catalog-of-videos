@@ -1,16 +1,15 @@
 package com.helion.admin.catalog.application.genre.create;
 
+import com.helion.admin.catalog.application.UseCaseTest;
 import com.helion.admin.catalog.domain.category.CategoryGateway;
 import com.helion.admin.catalog.domain.category.CategoryID;
 import com.helion.admin.catalog.domain.exceptions.NotificationException;
 import com.helion.admin.catalog.domain.genre.GenreGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Objects;
@@ -20,8 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
-public class CreateGenreUseCaseTest {
+public class CreateGenreUseCaseTest extends UseCaseTest {
 
     @InjectMocks
     private DefaultCreateGenreUseCase useCase;
@@ -31,6 +29,12 @@ public class CreateGenreUseCaseTest {
 
     @Mock
     private CategoryGateway categoryGateway;
+
+
+    @Override
+    protected List<Object> getMocks() {
+        return List.of(categoryGateway, genreGateway);
+    }
 
     @Test
     public void givenValidCommand_whenCallsCreateGenre_shouldReturnGenreID(){
@@ -228,4 +232,6 @@ public class CreateGenreUseCaseTest {
                 .map(CategoryID::getValue)
                 .toList();
     }
+
+
 }
