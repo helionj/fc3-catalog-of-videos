@@ -36,7 +36,7 @@ public class Genre extends AgregateRoot<GenreID> implements Cloneable {
         super(anId);
         this.name = aName;
         this.isActive = isActive;
-        this.categories = new ArrayList<>();
+        this.categories = categories;
         this.createdAt = Objects.requireNonNull(aCreatedAt, "'createdAt' not be null");
         this.updatedAt = Objects.requireNonNull(aUpdatedAt, "'updatedAt' not be null");
         this.deletedAt = aDeletedAt;
@@ -54,7 +54,6 @@ public class Genre extends AgregateRoot<GenreID> implements Cloneable {
             final Instant aCreatedAt,
             final Instant aUpdatedAt,
             final Instant aDeletedAt) {
-
         return new Genre(anId, aName, isActive, categories, aCreatedAt, aUpdatedAt, aDeletedAt);
     }
 

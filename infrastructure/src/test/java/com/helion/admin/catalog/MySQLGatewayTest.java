@@ -13,7 +13,9 @@ import java.lang.annotation.*;
 @Inherited
 @ActiveProfiles("test-integration")
 @DataJpaTest
-@ComponentScan(includeFilters = {
+@ComponentScan(
+        basePackages = "com.helion.admin.catalog",
+        includeFilters = {
         @ComponentScan.Filter(type = FilterType.REGEX, pattern = ".[MySQLGateway]")
 })
 @ExtendWith(MySQLCleanUpExtension.class)
