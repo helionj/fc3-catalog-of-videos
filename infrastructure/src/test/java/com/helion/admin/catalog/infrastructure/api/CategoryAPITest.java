@@ -19,6 +19,7 @@ import com.helion.admin.catalog.domain.exceptions.DomainException;
 import com.helion.admin.catalog.domain.exceptions.NotFoundException;
 import com.helion.admin.catalog.domain.validation.Error;
 import com.helion.admin.catalog.domain.validation.handler.Notification;
+import com.helion.admin.catalog.infrastructure.api.category.CategoryAPI;
 import com.helion.admin.catalog.infrastructure.category.models.CreateCategoryRequest;
 import com.helion.admin.catalog.infrastructure.category.models.UpdateCategoryRequest;
 import org.hamcrest.Matchers;

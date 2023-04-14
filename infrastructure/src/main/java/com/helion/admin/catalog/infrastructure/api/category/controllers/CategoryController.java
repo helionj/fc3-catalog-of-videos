@@ -1,4 +1,4 @@
-package com.helion.admin.catalog.infrastructure.api.controllers;
+package com.helion.admin.catalog.infrastructure.api.category.controllers;
 
 import com.helion.admin.catalog.application.category.create.CreateCategoryCommand;
 import com.helion.admin.catalog.application.category.create.CreateCategoryOutput;
@@ -12,7 +12,7 @@ import com.helion.admin.catalog.application.category.update.UpdateCategoryUseCas
 import com.helion.admin.catalog.domain.category.pagination.SearchQuery;
 import com.helion.admin.catalog.domain.category.pagination.Pagination;
 import com.helion.admin.catalog.domain.validation.handler.Notification;
-import com.helion.admin.catalog.infrastructure.api.CategoryAPI;
+import com.helion.admin.catalog.infrastructure.api.category.CategoryAPI;
 import com.helion.admin.catalog.infrastructure.category.models.CategoryListResponse;
 import com.helion.admin.catalog.infrastructure.category.models.CategoryResponse;
 import com.helion.admin.catalog.infrastructure.category.models.CreateCategoryRequest;

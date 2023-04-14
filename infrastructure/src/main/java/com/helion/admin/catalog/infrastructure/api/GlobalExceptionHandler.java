@@ -1,4 +1,4 @@
-package com.helion.admin.catalog.infrastructure.api.controllers;
+package com.helion.admin.catalog.infrastructure.api;
 
 import com.helion.admin.catalog.domain.exceptions.DomainException;
 import com.helion.admin.catalog.domain.exceptions.NotFoundException;
