@@ -8,7 +8,7 @@ import com.helion.admin.catalog.infrastructure.genre.models.GenreResponse;
 public class GenreApiPresenter {
     public static GenreResponse present(GenreOutput output){
         return new GenreResponse(
-                output.id().getValue(),
+                output.id(),
                 output.name(),
                 output.categories(),
                 output.isActive(),

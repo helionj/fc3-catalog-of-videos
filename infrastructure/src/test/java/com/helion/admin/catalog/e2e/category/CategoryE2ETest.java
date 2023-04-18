@@ -2,6 +2,7 @@ package com.helion.admin.catalog.e2e.category;
 
 import com.helion.admin.catalog.E2ETest;
 import com.helion.admin.catalog.domain.category.CategoryID;
+import com.helion.admin.catalog.e2e.MockDsl;
 import com.helion.admin.catalog.infrastructure.category.models.CategoryListResponse;
 import com.helion.admin.catalog.infrastructure.category.models.CategoryResponse;
 import com.helion.admin.catalog.infrastructure.category.models.CreateCategoryRequest;
@@ -30,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @E2ETest
 @Testcontainers
-public class CategoryE2ETest {
+public class CategoryE2ETest implements MockDsl {
 
 
     @Autowired
@@ -51,6 +52,11 @@ public class CategoryE2ETest {
         final var mappedPort = MYSQL_CONTAINER.getMappedPort(3306);
         System.out.printf("Container is running on port: %s\n", mappedPort);
         registry.add("mysql.port", () -> mappedPort);
+    }
+
+    @Override
+    public MockMvc mvc() {
+        return this.mvc;
     }
 
     @Test
@@ -315,19 +321,8 @@ public class CategoryE2ETest {
 
         return this.mvc.perform(aRequest);
     }
-    private CategoryID givenACategory(final String aName, final String aDescription, boolean isActive) throws Exception {
 
-        final var aRequestBody = new CreateCategoryRequest(aName, aDescription, isActive);
-        final var aRequest = post("/categories")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(Json.writeValueAsString(aRequestBody));
-        final var actualId = this.mvc.perform(aRequest)
-                .andExpect(status().isCreated())
-                .andReturn()
-                .getResponse().getHeader("Location")
-                .replace("/categories/", "");
-        return CategoryID.from(actualId);
-    }
+
     private CategoryResponse retrieveACategory(final String anId) throws Exception {
 
         final var aRequest = get("/categories/" + anId)
