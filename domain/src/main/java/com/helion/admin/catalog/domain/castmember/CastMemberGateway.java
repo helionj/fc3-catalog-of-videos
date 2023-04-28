@@ -11,7 +11,7 @@ public interface CastMemberGateway {
 
     void deleteById(CastMemberID anId);
 
-    Optional<CastMemberID> findById(CastMemberID anId);
+    Optional<CastMember> findById(CastMemberID anId);
 
     CastMember update(CastMember aMember);
 

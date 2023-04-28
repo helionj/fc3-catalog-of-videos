@@ -1,5 +1,6 @@
 package com.helion.admin.catalog;
 
+import com.helion.admin.catalog.infrastructure.castmember.persistence.CastMemberRepository;
 import com.helion.admin.catalog.infrastructure.category.persistence.CategoryRepository;
 import com.helion.admin.catalog.infrastructure.genre.persistence.GenreRepository;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
@@ -20,12 +21,11 @@ public class MySQLCleanUpExtension implements BeforeEachCallback {
 
         cleanUp(List.of(
                 appContext.getBean(GenreRepository.class),
-                appContext.getBean(CategoryRepository.class)
+                appContext.getBean(CategoryRepository.class),
+                appContext.getBean(CastMemberRepository.class)
         ));
 
-        //final var em = appContext.getBean(TestEntityManager.class);
-        //em.flush();
-        //em.clear();
+
     }
 
     private void cleanUp(final Collection<CrudRepository> repositories){

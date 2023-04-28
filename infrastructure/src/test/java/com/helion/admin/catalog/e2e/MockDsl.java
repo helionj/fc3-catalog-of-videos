@@ -1,6 +1,7 @@
 package com.helion.admin.catalog.e2e;
 
 import com.helion.admin.catalog.domain.Identifier;
+import com.helion.admin.catalog.domain.castmember.CastMemberType;
 import com.helion.admin.catalog.domain.category.CategoryID;
 import com.helion.admin.catalog.domain.genre.GenreID;
 import com.helion.admin.catalog.infrastructure.category.models.CreateCategoryRequest;
@@ -116,6 +117,7 @@ public interface MockDsl {
 
         return this.mvc().perform(aRequest);
     }
+
 
 
 }

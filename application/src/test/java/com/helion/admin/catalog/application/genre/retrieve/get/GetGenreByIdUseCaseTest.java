@@ -44,7 +44,7 @@ public class GetGenreByIdUseCaseTest extends UseCaseTest {
         when(genreGateway.findById(eq(expectedId))).thenReturn(Optional.of(aGenre.clone()));
         final var actualGenre =  useCase.execute(expectedId.getValue());
 
-        Assertions.assertEquals(expectedId, actualGenre.id());
+        Assertions.assertEquals(expectedId.getValue(), actualGenre.id());
         Assertions.assertEquals(expectedName, actualGenre.name());
         Assertions.assertEquals(expectedCategories, actualGenre.categories());
         Assertions.assertEquals(isActive, actualGenre.isActive());
@@ -72,7 +72,7 @@ public class GetGenreByIdUseCaseTest extends UseCaseTest {
         when(genreGateway.findById(eq(expectedId))).thenReturn(Optional.of(aGenre.clone()));
         final var actualGenre =  useCase.execute(expectedId.getValue());
 
-        Assertions.assertEquals(expectedId, actualGenre.id());
+        Assertions.assertEquals(expectedId.getValue(), actualGenre.id());
         Assertions.assertEquals(expectedName, actualGenre.name());
         Assertions.assertEquals(asString(expectedCategories), actualGenre.categories());
         Assertions.assertEquals(isActive, actualGenre.isActive());
