@@ -477,6 +477,32 @@ public class GenreMySQLGatewayTest {
         }
     }
 
+    @Test
+    public void givenTwoGenresAndOnePersisted_whenCallsExistsByIds_shouldReturnPersisted(){
+
+        final var aGenre = Genre.newGenre("Genre 1", true);
+        final var expectedItems = 1;
+        final var expectedId = aGenre.getId();
+        final var expectedIsActive = false;
+        final var expectedCategories = List.<CategoryID>of();
+
+
+
+        genreRepository.saveAndFlush(GenreJpaEntity.from(aGenre));
+
+        Assertions.assertEquals(1, genreRepository.count());
+
+
+        final var actualGenre = genreGateway.existsByIds(
+                List.of(GenreID.from("123"), expectedId)
+        );
+
+        Assertions.assertEquals(expectedItems, actualGenre.size());
+        Assertions.assertEquals(expectedId.getValue(), actualGenre.get(0).getValue());
+
+
+    }
+
     private Iterable<?> sorted(List<CategoryID> expectedCategories) {
         return expectedCategories.stream()
                 .sorted(Comparator.comparing(CategoryID::getValue)).toList();

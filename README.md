@@ -163,3 +163,7 @@ Para encerrar os containers, basta executar o comando:
 ```
 docker compose --profile app stop
 ```
+
+## Criando um dominio
+
+### 1 - Criar um p

@@ -1,3 +1,22 @@
+google:
+  cloud:
+    credentials: ${GOOGLE_CLOUD_CREDENTIALS}
+    projectId: ${GOOGLE_CLOUD_PROJECT_ID}
+    storage:
+      catalogo-videos:
+        bucket: fc3_catalago_videos
+        connect-timeout: 1000
+        read-timeout: 2000
+        retry-delay: 50
+        retry-max-attempts: 2
+        retry-max-delay: 50
+        retry-multiplier: 1.0
+
+logging:
+  level:
+    ROOT: INFO
+    com.helion.admin.catalog: DEBUG
+
 server:
   port: 8080
   servlet:
@@ -33,3 +52,8 @@ spring:
         "[hibernate.connection.provider_disables_autocommit]": true
         # Para aumentar a performance ao máximo, desabilitamos o auto-commit e o open-in-view.
         # https://vladmihalcea.com/why-you-should-always-use-hibernate-connection-provider_disables_autocommit-for-resource-local-jpa-transactions/
+
+storage:
+  catalogo-videos:
+    filename-pattern: type-{type}
+    location-pattern: videoId-{videoId}

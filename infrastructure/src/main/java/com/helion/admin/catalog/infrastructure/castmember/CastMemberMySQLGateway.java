@@ -5,6 +5,8 @@ import com.helion.admin.catalog.domain.castmember.CastMemberGateway;
 import com.helion.admin.catalog.domain.castmember.CastMemberID;
 import com.helion.admin.catalog.domain.category.pagination.Pagination;
 import com.helion.admin.catalog.domain.category.pagination.SearchQuery;
+import com.helion.admin.catalog.domain.genre.Genre;
+import com.helion.admin.catalog.domain.genre.GenreID;
 import com.helion.admin.catalog.infrastructure.castmember.persistence.CastMemberJpaEntity;
 import com.helion.admin.catalog.infrastructure.castmember.persistence.CastMemberRepository;
 import com.helion.admin.catalog.infrastructure.utils.SpecificationUtils;
@@ -13,8 +15,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 @Component
 public class CastMemberMySQLGateway implements CastMemberGateway {
@@ -70,6 +74,16 @@ public class CastMemberMySQLGateway implements CastMemberGateway {
                 pageResults.getTotalElements(),
                 pageResults.map(CastMemberJpaEntity::toAggregate).toList()
         );
+    }
+
+    @Override
+    public List<CastMemberID> existsByIds(Iterable<CastMemberID> castMemberIDS) {
+        final var ids = StreamSupport.stream(castMemberIDS.spliterator(), false)
+                .map(CastMemberID::getValue)
+                .toList();
+        return this.repository.existsByIds(ids).stream()
+                .map(CastMemberID::from)
+                .toList();
     }
 
     private Specification<CastMemberJpaEntity> assembleSpecification(final String terms) {

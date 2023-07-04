@@ -302,25 +302,7 @@ public class CategoryE2ETest implements MockDsl {
         Assertions.assertFalse(this.categoryRepository.existsById(actualId.getValue()));
     }
 
-    private ResultActions listCategories(final int page, final int perPage, final String search) throws Exception {
-        return listCategories(page, perPage, search, null, null);
-    }
 
-    private ResultActions listCategories(final int page, final int perPage) throws Exception {
-        return listCategories(page, perPage, null, null, null);
-    }
-
-    private ResultActions listCategories(final int page, final int perPage, final String search, final String sort, final String direction) throws Exception {
-        final var aRequest = get("/categories")
-                .contentType(MediaType.APPLICATION_JSON)
-                .queryParam("page",String.valueOf(page))
-                .queryParam("perPage", String.valueOf(perPage))
-                .queryParam("search", search)
-                .queryParam("sort", sort)
-                .queryParam("dir", direction);
-
-        return this.mvc.perform(aRequest);
-    }
 
 
     private CategoryResponse retrieveACategory(final String anId) throws Exception {

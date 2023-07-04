@@ -1,13 +1,18 @@
 package com.helion.admin.catalog.infrastructure.castmember;
 
 import com.helion.admin.catalog.MySQLGatewayTest;
+import com.helion.admin.catalog.domain.Fixture;
 import com.helion.admin.catalog.domain.castmember.CastMember;
+import com.helion.admin.catalog.domain.castmember.CastMemberGateway;
 import com.helion.admin.catalog.domain.castmember.CastMemberID;
 import com.helion.admin.catalog.domain.castmember.CastMemberType;
+import com.helion.admin.catalog.domain.category.CategoryID;
 import com.helion.admin.catalog.domain.category.pagination.SearchQuery;
-import com.helion.admin.catalog.infrastructure.Fixture;
+import com.helion.admin.catalog.domain.genre.Genre;
+import com.helion.admin.catalog.domain.genre.GenreID;
 import com.helion.admin.catalog.infrastructure.castmember.persistence.CastMemberJpaEntity;
 import com.helion.admin.catalog.infrastructure.castmember.persistence.CastMemberRepository;
+import com.helion.admin.catalog.infrastructure.genre.persistence.GenreJpaEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -25,6 +30,9 @@ public class CastMemberMySQLGatewayTest {
     @Autowired
     private CastMemberRepository castMemberRepository;
 
+    @Autowired
+    private CastMemberGateway castMemberGateway;
+
     @Test
     public void testDependencies(){
         Assertions.assertNotNull(castMemberMySQLGateway);
@@ -34,7 +42,7 @@ public class CastMemberMySQLGatewayTest {
     @Test
     public void givenAValidCastMember_whenCreateACastMember_shouldPersistIt(){
         final var expectedName = Fixture.name();
-        final var expectedType = Fixture.CastMember.type();
+        final var expectedType = Fixture.CastMembers.type();
 
         final var aMember = CastMember.newMember(expectedName, expectedType);
 
@@ -117,7 +125,7 @@ public class CastMemberMySQLGatewayTest {
     public void givenAPrePersistedGenre_whenCallsFindById_ShouldReturnGenre(){
 
         final var expectedName = Fixture.name();
-        final var expectedType = Fixture.CastMember.type();
+        final var expectedType = Fixture.CastMembers.type();
 
 
         final var aMember = CastMember.newMember(expectedName, expectedType);
@@ -279,6 +287,30 @@ public class CastMemberMySQLGatewayTest {
             Assertions.assertEquals(expectedName, actualName);
             index++;
         }
+    }
+
+    @Test
+    public void givenTwoCastMembersAndOnePersisted_whenCallsExistsByIds_shouldReturnPersisted(){
+
+        final var aMember = CastMember.newMember("Member 1", CastMemberType.ACTOR);
+        final var expectedItems = 1;
+        final var expectedId = aMember.getId();
+
+
+
+        castMemberRepository.saveAndFlush(CastMemberJpaEntity.from(aMember));
+
+        Assertions.assertEquals(1, castMemberRepository.count());
+
+
+        final var actualMember = castMemberGateway.existsByIds(
+                List.of(CastMemberID.from("123"), expectedId)
+        );
+
+        Assertions.assertEquals(expectedItems, actualMember.size());
+        Assertions.assertEquals(expectedId.getValue(), actualMember.get(0).getValue());
+
+
     }
 
     private void mockMembers(){

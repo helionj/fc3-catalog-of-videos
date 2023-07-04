@@ -1,29 +1,23 @@
 package com.helion.admin.catalog.application.castmember.update;
 
 import com.helion.admin.catalog.IntegrationTest;
+import com.helion.admin.catalog.domain.Fixture;
 import com.helion.admin.catalog.domain.castmember.CastMember;
 import com.helion.admin.catalog.domain.castmember.CastMemberGateway;
 import com.helion.admin.catalog.domain.castmember.CastMemberType;
 import com.helion.admin.catalog.domain.exceptions.NotificationException;
-import com.helion.admin.catalog.infrastructure.Fixture;
 import com.helion.admin.catalog.infrastructure.castmember.persistence.CastMemberJpaEntity;
 import com.helion.admin.catalog.infrastructure.castmember.persistence.CastMemberRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
-import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @IntegrationTest
 public class UpdateCastMemberUseCaseIT{
@@ -78,7 +72,7 @@ public class UpdateCastMemberUseCaseIT{
 
         final var aMember = CastMember.newMember("Um Ator", CastMemberType.ACTOR);
         final String expectedName = null;
-        final var expectedType = Fixture.CastMember.type();
+        final var expectedType = Fixture.CastMembers.type();
         final var expectedID = aMember.getId();
 
         final var expectedErrorMessage = "'name' should not be null";
@@ -102,7 +96,7 @@ public class UpdateCastMemberUseCaseIT{
 
         final var aMember = CastMember.newMember("Um Ator", CastMemberType.ACTOR);
         final var expectedName = " ";
-        final var expectedType = Fixture.CastMember.type();
+        final var expectedType = Fixture.CastMembers.type();
         final var expectedID = aMember.getId();
 
         final var expectedErrorMessage = "'name' should not be empty";

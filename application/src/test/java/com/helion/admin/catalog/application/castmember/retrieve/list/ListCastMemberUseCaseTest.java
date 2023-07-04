@@ -1,7 +1,7 @@
 package com.helion.admin.catalog.application.castmember.retrieve.list;
 
-import com.helion.admin.catalog.application.Fixture;
 import com.helion.admin.catalog.application.UseCaseTest;
+import com.helion.admin.catalog.domain.Fixture;
 import com.helion.admin.catalog.domain.castmember.CastMember;
 import com.helion.admin.catalog.domain.castmember.CastMemberGateway;
 import com.helion.admin.catalog.domain.category.pagination.Pagination;
@@ -32,9 +32,9 @@ public class ListCastMemberUseCaseTest extends UseCaseTest {
 
     @Test
     public void givenAValidQuery_whenCallsListCastMembers_shouldReturnCastMemberd(){
-        final var aMember1 = CastMember.newMember(Fixture.name(), Fixture.CastMember.type());
-        final var aMember2 = CastMember.newMember(Fixture.name(), Fixture.CastMember.type());
-        final var aMember3 = CastMember.newMember(Fixture.name(), Fixture.CastMember.type());
+        final var aMember1 = CastMember.newMember(Fixture.name(), Fixture.CastMembers.type());
+        final var aMember2 = CastMember.newMember(Fixture.name(), Fixture.CastMembers.type());
+        final var aMember3 = CastMember.newMember(Fixture.name(), Fixture.CastMembers.type());
 
         final var aMembers = List.of(aMember1, aMember2, aMember3);
 

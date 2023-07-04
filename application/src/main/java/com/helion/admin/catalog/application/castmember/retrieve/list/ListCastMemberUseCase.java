@@ -4,7 +4,5 @@ import com.helion.admin.catalog.application.UseCase;
 import com.helion.admin.catalog.domain.category.pagination.Pagination;
 import com.helion.admin.catalog.domain.category.pagination.SearchQuery;
 
-public sealed abstract class ListCastMemberUseCase
-        extends UseCase<SearchQuery, Pagination<CastMemberListOutput>>
-        permits DefaultListCastMemberUseCase{
-}
+public abstract class ListCastMemberUseCase
+        extends UseCase<SearchQuery, Pagination<CastMemberListOutput>> {}

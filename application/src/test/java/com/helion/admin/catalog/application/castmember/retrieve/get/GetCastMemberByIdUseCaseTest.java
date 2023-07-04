@@ -1,7 +1,7 @@
 package com.helion.admin.catalog.application.castmember.retrieve.get;
 
-import com.helion.admin.catalog.application.Fixture;
 import com.helion.admin.catalog.application.UseCaseTest;
+import com.helion.admin.catalog.domain.Fixture;
 import com.helion.admin.catalog.domain.castmember.CastMember;
 import com.helion.admin.catalog.domain.castmember.CastMemberGateway;
 import com.helion.admin.catalog.domain.castmember.CastMemberID;
@@ -35,7 +35,7 @@ public class GetCastMemberByIdUseCaseTest extends UseCaseTest {
     @Test
     public void givenAnValidId_whenCallsGetCastMemberById_shouldReturnsACastMember(){
         final var expectedName = Fixture.name();
-        final var expectedType = Fixture.CastMember.type();
+        final var expectedType = Fixture.CastMembers.type();
         final var aMember = CastMember.newMember(expectedName, expectedType);
         final var expectedID = aMember.getId();
 
@@ -65,7 +65,7 @@ public class GetCastMemberByIdUseCaseTest extends UseCaseTest {
     @Test
     public void givenAnValidId_whenGatewayThrowsException_shouldReturnsException(){
         final var expectedName = Fixture.name();
-        final var expectedType = Fixture.CastMember.type();
+        final var expectedType = Fixture.CastMembers.type();
         final var aMember = CastMember.newMember(expectedName, expectedType);
         final var expectedID = aMember.getId();
         final var expectedErrorMessage ="Gateway Error";

@@ -44,9 +44,10 @@ public class GetGenreByIdUseCaseIT {
        ;
         final var actualGenre =  useCase.execute(expectedId.getValue());
 
-        Assertions.assertEquals(expectedId, actualGenre.id());
+        Assertions.assertEquals(expectedId.getValue(), actualGenre.id());
         Assertions.assertEquals(expectedName, actualGenre.name());
-        Assertions.assertEquals(expectedCategories, actualGenre.categories());
+        Assertions.assertEquals(expectedCategories.size(), actualGenre.categories().size());
+        Assertions.assertTrue(expectedCategories.containsAll(actualGenre.categories()));
         Assertions.assertEquals(isActive, actualGenre.isActive());
         Assertions.assertEquals(aGenre.getCreatedAt(), actualGenre.createdAt());
         Assertions.assertEquals(aGenre.getUpdatedAt(), actualGenre.updatedAt());
@@ -74,7 +75,7 @@ public class GetGenreByIdUseCaseIT {
 
         final var actualGenre =  useCase.execute(expectedId.getValue());
 
-        Assertions.assertEquals(expectedId, actualGenre.id());
+        Assertions.assertEquals(expectedId.getValue(), actualGenre.id());
         Assertions.assertEquals(expectedName, actualGenre.name());
         Assertions.assertTrue(asString(expectedCategories).size() == actualGenre.categories().size()
             && asString(expectedCategories).containsAll(actualGenre.categories()));

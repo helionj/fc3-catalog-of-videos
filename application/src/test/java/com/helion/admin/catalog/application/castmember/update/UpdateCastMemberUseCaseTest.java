@@ -1,7 +1,7 @@
 package com.helion.admin.catalog.application.castmember.update;
 
-import com.helion.admin.catalog.application.Fixture;
 import com.helion.admin.catalog.application.UseCaseTest;
+import com.helion.admin.catalog.domain.Fixture;
 import com.helion.admin.catalog.domain.castmember.CastMember;
 import com.helion.admin.catalog.domain.castmember.CastMemberGateway;
 import com.helion.admin.catalog.domain.castmember.CastMemberType;
@@ -72,7 +72,7 @@ public class UpdateCastMemberUseCaseTest extends UseCaseTest {
 
         final var aMember = CastMember.newMember("Um Ator", CastMemberType.ACTOR);
         final String expectedName = null;
-        final var expectedType = Fixture.CastMember.type();
+        final var expectedType = Fixture.CastMembers.type();
         final var expectedID = aMember.getId();
 
         final var expectedErrorMessage = "'name' should not be null";
@@ -95,7 +95,7 @@ public class UpdateCastMemberUseCaseTest extends UseCaseTest {
 
         final var aMember = CastMember.newMember("Um Ator", CastMemberType.ACTOR);
         final var expectedName = " ";
-        final var expectedType = Fixture.CastMember.type();
+        final var expectedType = Fixture.CastMembers.type();
         final var expectedID = aMember.getId();
 
         final var expectedErrorMessage = "'name' should not be empty";

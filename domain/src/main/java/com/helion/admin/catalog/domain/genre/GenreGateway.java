@@ -1,8 +1,10 @@
 package com.helion.admin.catalog.domain.genre;
 
+import com.helion.admin.catalog.domain.category.CategoryID;
 import com.helion.admin.catalog.domain.category.pagination.Pagination;
 import com.helion.admin.catalog.domain.category.pagination.SearchQuery;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface GenreGateway {
@@ -16,4 +18,6 @@ public interface GenreGateway {
     Genre update(Genre aGenre);
 
     Pagination<Genre> findAll(SearchQuery aQuery);
+
+    List<GenreID> existsByIds(final Iterable<GenreID> ids);
 }

@@ -1,11 +1,11 @@
 package com.helion.admin.catalog.application.castmember.retrieve.get;
 
 import com.helion.admin.catalog.IntegrationTest;
+import com.helion.admin.catalog.domain.Fixture;
 import com.helion.admin.catalog.domain.castmember.CastMember;
 import com.helion.admin.catalog.domain.castmember.CastMemberGateway;
 import com.helion.admin.catalog.domain.castmember.CastMemberID;
 import com.helion.admin.catalog.domain.exceptions.NotFoundException;
-import com.helion.admin.catalog.infrastructure.Fixture;
 import com.helion.admin.catalog.infrastructure.castmember.persistence.CastMemberJpaEntity;
 import com.helion.admin.catalog.infrastructure.castmember.persistence.CastMemberRepository;
 import org.junit.jupiter.api.Assertions;
@@ -33,7 +33,7 @@ public class GetCastMemberByIdUseCaseIT{
     @Test
     public void givenAnValidId_whenCallsGetCastMemberById_shouldReturnsACastMember(){
         final var expectedName = Fixture.name();
-        final var expectedType = Fixture.CastMember.type();
+        final var expectedType = Fixture.CastMembers.type();
         final var aMember = CastMember.newMember(expectedName, expectedType);
         final var expectedID = aMember.getId();
 

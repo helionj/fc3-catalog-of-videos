@@ -1,6 +1,7 @@
 package com.helion.admin.catalog.domain.category;
 
 import com.helion.admin.catalog.domain.Identifier;
+import com.helion.admin.catalog.domain.utils.IdUtils;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -15,16 +16,14 @@ public class CategoryID extends Identifier {
     }
 
    public static CategoryID unique(){
-        return CategoryID.from(UUID.randomUUID());
+        return CategoryID.from(IdUtils.uuid());
    }
 
    public static CategoryID from(final String anId) {
         return new CategoryID(anId);
    }
 
-    public static CategoryID from(final UUID anId) {
-        return new CategoryID(anId.toString().toLowerCase());
-    }
+
 
     @Override
     public String getValue(){

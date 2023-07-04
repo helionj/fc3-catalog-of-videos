@@ -109,10 +109,6 @@ public class GetGenreByIdUseCaseTest extends UseCaseTest {
 
     }
 
-    private List<String> asString(List<CategoryID> categories) {
-        return categories.stream()
-                .map(CategoryID::getValue)
-                .toList();
-    }
+
 
 }

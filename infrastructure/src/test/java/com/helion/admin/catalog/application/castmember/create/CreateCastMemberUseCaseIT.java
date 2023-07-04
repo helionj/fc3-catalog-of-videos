@@ -1,10 +1,10 @@
 package com.helion.admin.catalog.application.castmember.create;
 
 import com.helion.admin.catalog.IntegrationTest;
+import com.helion.admin.catalog.domain.Fixture;
 import com.helion.admin.catalog.domain.castmember.CastMemberGateway;
 import com.helion.admin.catalog.domain.castmember.CastMemberType;
 import com.helion.admin.catalog.domain.exceptions.NotificationException;
-import com.helion.admin.catalog.infrastructure.Fixture;
 import com.helion.admin.catalog.infrastructure.castmember.persistence.CastMemberRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ public class CreateCastMemberUseCaseIT {
     @Test
     public void givenValidCommand_whenCallsCreateCastMember_shouldReturnCastMemberID(){
         final var expectedName = Fixture.name();
-        final var expectedType = Fixture.CastMember.type();
+        final var expectedType = Fixture.CastMembers.type();
 
         final var aCommand = CreateCastMemberCommand.with(expectedName, expectedType);
 
@@ -55,7 +55,7 @@ public class CreateCastMemberUseCaseIT {
     @Test
     public void givenAnInvalidNullName_whenCallsCreateCastMember_shouldReturnDomainException(){
         final String expectedName = null;
-        final var expectedType = Fixture.CastMember.type();
+        final var expectedType = Fixture.CastMembers.type();
         final var expectedErrorMessage = "'name' should not be null";
         final var expectedErrorCount= 1;
 
@@ -72,7 +72,7 @@ public class CreateCastMemberUseCaseIT {
     @Test
     public void givenAnInvalidEmptyName_whenCallsCreateCastMember_shouldReturnDomainException(){
         final String expectedName = " ";
-        final var expectedType = Fixture.CastMember.type();
+        final var expectedType = Fixture.CastMembers.type();
         final var expectedErrorMessage = "'name' should not be empty";
         final var expectedErrorCount= 1;
 
