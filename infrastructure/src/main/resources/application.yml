@@ -1,3 +1,16 @@
+amqp:
+  admin:
+    auto-create: false
+  queues:
+    video-created:
+      exchange: video.events
+      routing-key: video.created
+      queue: video.created.queue
+    video-encoded:
+      exchange: video.events
+      routing-key: video.encoded
+      queue: video.encoded.queue
+
 google:
   cloud:
     credentials: ${GOOGLE_CLOUD_CREDENTIALS}
@@ -41,17 +54,22 @@ spring:
       maximum-pool-size: 20 # Mantemos até no máx 20 conexões com o banco de dados. O ideal é manter baixo mesmo, pois é algo custoso para o banco gerenciar. https://github.com/brettwooldridge/HikariCP/wiki/About-Pool-Sizing
       minimum-idle: 10
       pool-name: master
-    jpa:
-      open-in-view: false
-      show-sql: true
-      hibernate:
-        ddl-auto: none
-      properties:
-        "[hibernate.dialect]": org.hibernate.dialect.MySQL5InnoDBDialect
-        "[hibernate.generate_statistics]": false
-        "[hibernate.connection.provider_disables_autocommit]": true
-        # Para aumentar a performance ao máximo, desabilitamos o auto-commit e o open-in-view.
-        # https://vladmihalcea.com/why-you-should-always-use-hibernate-connection-provider_disables_autocommit-for-resource-local-jpa-transactions/
+  jpa:
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      "[hibernate.dialect]": org.hibernate.dialect.MySQL5InnoDBDialect
+      "[hibernate.generate_statistics]": false
+      "[hibernate.connection.provider_disables_autocommit]": true
+      # Para aumentar a performance ao máximo, desabilitamos o auto-commit e o open-in-view.
+      # https://vladmihalcea.com/why-you-should-always-use-hibernate-connection-provider_disables_autocommit-for-resource-local-jpa-transactions/
+  rabbitmq:
+    host: ${amqp.host}
+    port: ${amqp.port}
+    username: ${amqp.username}
+    password: ${amqp.password}
 
 storage:
   catalogo-videos:
