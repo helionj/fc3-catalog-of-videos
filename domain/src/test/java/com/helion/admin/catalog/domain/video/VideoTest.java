@@ -3,11 +3,13 @@ package com.helion.admin.catalog.domain.video;
 import com.helion.admin.catalog.domain.castmember.CastMemberID;
 import com.helion.admin.catalog.domain.category.CategoryID;
 import com.helion.admin.catalog.domain.genre.GenreID;
+import com.helion.admin.catalog.domain.utils.InstantUtils;
 import com.helion.admin.catalog.domain.validation.handler.ThrowsValidationHandler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.Year;
+import java.util.List;
 import java.util.Set;
 
 public class VideoTest {
@@ -61,6 +63,7 @@ public class VideoTest {
         Assertions.assertTrue(actualVideo.getThumbnailHalf().isEmpty());
         Assertions.assertNotNull(actualVideo.getCreatedAt());
         Assertions.assertNotNull(actualVideo.getUpdatedAt());
+        Assertions.assertTrue(actualVideo.getDomainEvents().isEmpty());
 
         Assertions.assertDoesNotThrow(() -> actualVideo.validate(new ThrowsValidationHandler()));
 
@@ -78,6 +81,8 @@ public class VideoTest {
         final var expectedOpened = false;
         final var expectedPublished = false;
         final var expectedRating = Rating.L;
+        final var expectedEvent = new VideoMediaCreated("ID", "file");
+        final var expectedEventCount = 1 ;
         final var expectedCategories = Set.of(CategoryID.unique());
         final var expectedGenres = Set.of(GenreID.unique());
         final var expectedMembers = Set.of(CastMemberID.unique());
@@ -95,6 +100,8 @@ public class VideoTest {
                 Set.<GenreID>of(),
                 Set.<CastMemberID>of()
         );
+
+        aVideo.registerEvent(expectedEvent);
 
         final var actualVideo = Video.with(aVideo).update(
                 expectedTitle,
@@ -129,6 +136,8 @@ public class VideoTest {
         Assertions.assertEquals(actualVideo.getCreatedAt(), aVideo.getCreatedAt());
         Assertions.assertNotNull(actualVideo.getUpdatedAt());
         Assertions.assertTrue(actualVideo.getCreatedAt().isBefore(actualVideo.getUpdatedAt()));
+        Assertions.assertEquals(expectedEventCount,actualVideo.getDomainEvents().size());
+        Assertions.assertEquals(expectedEvent, actualVideo.getDomainEvents().get(0));
 
         Assertions.assertDoesNotThrow(() -> actualVideo.validate(new ThrowsValidationHandler()));
 
@@ -420,6 +429,49 @@ public class VideoTest {
         Assertions.assertTrue(actualVideo.getCreatedAt().isBefore(actualVideo.getUpdatedAt()));
 
         Assertions.assertDoesNotThrow(() -> actualVideo.validate(new ThrowsValidationHandler()));
+
+    }
+
+    @Test
+    public void givenAnValidVideo_whenCallsWith_shouldCreateWithoutEvents(){
+        final var expectedTitle = "System Design Interview";
+        final var expectedDescription = """
+            Lets design the high-level architecture of youtube - similar to 
+            how we'd tackle this in a system design interview.
+            """;
+        final var expectedLaunchedAt = Year.of(2022);
+        final var expectedDuration = 120.10;
+        final var expectedOpened = false;
+        final var expectedPublished = false;
+        final var expectedRating = Rating.L;
+        final var expectedCategories = Set.of(CategoryID.unique());
+        final var expectedGenres = Set.of(GenreID.unique());
+        final var expectedMembers = Set.of(CastMemberID.unique());
+
+
+
+        final var actualVideo = Video.with(
+                VideoID.unique(),
+                expectedTitle,
+                expectedDescription,
+                expectedLaunchedAt,
+                expectedDuration,
+                expectedOpened,
+                expectedPublished,
+                expectedRating,
+                InstantUtils.now(),
+                InstantUtils.now(),
+                null,
+                null,
+                null,
+                null,
+                null,
+                expectedCategories,
+                expectedGenres,
+                expectedMembers
+        );
+
+        Assertions.assertNotNull(actualVideo.getDomainEvents());
 
     }
 }

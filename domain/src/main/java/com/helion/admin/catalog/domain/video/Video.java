@@ -3,16 +3,14 @@ package com.helion.admin.catalog.domain.video;
 import com.helion.admin.catalog.domain.AgregateRoot;
 import com.helion.admin.catalog.domain.castmember.CastMemberID;
 import com.helion.admin.catalog.domain.category.CategoryID;
+import com.helion.admin.catalog.domain.event.DomainEvent;
 import com.helion.admin.catalog.domain.genre.GenreID;
 import com.helion.admin.catalog.domain.utils.InstantUtils;
 import com.helion.admin.catalog.domain.validation.ValidationHandler;
 
 import java.time.Instant;
 import java.time.Year;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 public class Video extends AgregateRoot<VideoID> {
 
@@ -57,9 +55,11 @@ public class Video extends AgregateRoot<VideoID> {
             final AudioVideoMedia aVideo,
             final Set<CategoryID> categories,
             final Set<GenreID> genres,
-            final Set<CastMemberID> castMembers
+            final Set<CastMemberID> castMembers,
+            final List<DomainEvent> domainEvents
+
             ) {
-        super(anId);
+        super(anId, domainEvents);
         this.title = aTitle;
         this.description = aDescription;
         this.launchedAt = aLaunchYear;
@@ -112,7 +112,8 @@ public class Video extends AgregateRoot<VideoID> {
                 null,
                 categories,
                 genres,
-                castMembers
+                castMembers,
+                null
         );
 
     }
@@ -138,7 +139,8 @@ public class Video extends AgregateRoot<VideoID> {
                 aVideo.getVideo().orElse(null),
                 new HashSet<>(aVideo.getCategories()),
                 new HashSet<>(aVideo.getGenres()),
-                new HashSet<>(aVideo.getCastMembers())
+                new HashSet<>(aVideo.getCastMembers()),
+                aVideo.getDomainEvents()
         );
 
     }
@@ -181,7 +183,8 @@ public class Video extends AgregateRoot<VideoID> {
                 aVideo,
                 categories,
                 genres,
-                castMembers
+                castMembers,
+                null
         );
     }
 
