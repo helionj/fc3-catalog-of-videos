@@ -6,7 +6,6 @@ import com.helion.admin.catalog.domain.castmember.CastMemberID;
 import com.helion.admin.catalog.domain.category.CategoryID;
 import com.helion.admin.catalog.domain.exceptions.NotFoundException;
 import com.helion.admin.catalog.domain.genre.GenreID;
-import com.helion.admin.catalog.domain.resource.Resource;
 import com.helion.admin.catalog.domain.utils.CollectionUtils;
 import com.helion.admin.catalog.domain.utils.IdUtils;
 import com.helion.admin.catalog.domain.video.*;
@@ -76,11 +75,11 @@ public class GetVideoByIdUseCaseTest extends UseCaseTest {
                 expectedMembers
         );
 
-        aVideo.setVideo(expectedVideo);
-        aVideo.setTrailer(expectedTrailer);
-        aVideo.setBanner(expectedBanner);
-        aVideo.setThumbnail(expectedThumb);
-        aVideo.setThumbnailHalf(expectedThumbHalf);
+        aVideo.updateVideoMedia(expectedVideo);
+        aVideo.updateTrailerMedia(expectedTrailer);
+        aVideo.updateBannerMedia(expectedBanner);
+        aVideo.updateThumbnailMedia(expectedThumb);
+        aVideo.updateThumbnailHalfMedia(expectedThumbHalf);
 
         final var expectedId = aVideo.getId();
 

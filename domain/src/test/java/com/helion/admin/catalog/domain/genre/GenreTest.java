@@ -1,5 +1,6 @@
 package com.helion.admin.catalog.domain.genre;
 
+import com.helion.admin.catalog.domain.UnitTest;
 import com.helion.admin.catalog.domain.category.CategoryID;
 import com.helion.admin.catalog.domain.exceptions.NotificationException;
 import org.junit.jupiter.api.Assertions;
@@ -8,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenreTest {
+public class GenreTest extends UnitTest {
 
     @Test
     public void givenAValidParams_whenCallNewGenre_shouldInstantiateAGenre() {

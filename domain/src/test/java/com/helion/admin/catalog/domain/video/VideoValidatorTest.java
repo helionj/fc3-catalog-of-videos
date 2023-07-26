@@ -1,5 +1,6 @@
 package com.helion.admin.catalog.domain.video;
 
+import com.helion.admin.catalog.domain.UnitTest;
 import com.helion.admin.catalog.domain.castmember.CastMemberID;
 import com.helion.admin.catalog.domain.category.CategoryID;
 import com.helion.admin.catalog.domain.exceptions.DomainException;
@@ -11,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.time.Year;
 import java.util.Set;
 
-public class VideoValidatorTest {
+public class VideoValidatorTest extends UnitTest {
 
     @Test
     public void givenNullTitle_whenCallValidate_shouldReceiveAnError(){

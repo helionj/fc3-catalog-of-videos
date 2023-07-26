@@ -3,6 +3,7 @@ package com.helion.admin.catalog.application;
 
 import com.helion.admin.catalog.domain.Identifier;
 import com.helion.admin.catalog.domain.category.CategoryID;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -14,6 +15,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @ExtendWith(MockitoExtension.class)
+@Tag("unitTest")
 public abstract class UseCaseTest implements BeforeEachCallback {
 
     @Override

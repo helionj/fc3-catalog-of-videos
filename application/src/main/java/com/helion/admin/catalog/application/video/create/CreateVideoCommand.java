@@ -57,19 +57,51 @@ public record CreateVideoCommand(
         );
     }
 
-    Optional<Resource> getVideo(){
+    public static CreateVideoCommand with(
+            final String title,
+            final String description,
+            final Integer launchedAt,
+            final Double duration,
+            final Boolean opened,
+            final Boolean published,
+            final String rating,
+            final Set<String> categories,
+            final Set<String> genres,
+            final Set<String> castMembers
+            ){
+        return new CreateVideoCommand(
+                title,
+                description,
+                launchedAt,
+                duration,
+                opened,
+                published,
+                rating,
+                categories,
+                genres,
+                castMembers,
+                null,
+                null,
+                null,
+                null,
+                null
+
+        );
+    }
+
+    public Optional<Resource> getVideo(){
         return Optional.ofNullable(video);
     }
-    Optional<Resource> getTrailer(){
+    public Optional<Resource> getTrailer(){
         return Optional.ofNullable(trailer);
     }
-    Optional<Resource> getBanner(){
+    public Optional<Resource> getBanner(){
         return Optional.ofNullable(banner);
     }
-    Optional<Resource> getThumbnailHalf(){
+    public Optional<Resource> getThumbnailHalf(){
         return Optional.ofNullable(thumbnailHalf);
     }
-    Optional<Resource> getThumbnail(){
+    public Optional<Resource> getThumbnail(){
         return Optional.ofNullable(thumbnail);
     }
 

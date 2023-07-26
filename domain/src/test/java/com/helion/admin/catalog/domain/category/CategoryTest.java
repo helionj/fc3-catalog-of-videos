@@ -1,11 +1,12 @@
 package com.helion.admin.catalog.domain.category;
 
+import com.helion.admin.catalog.domain.UnitTest;
 import com.helion.admin.catalog.domain.exceptions.DomainException;
 import com.helion.admin.catalog.domain.validation.handler.ThrowsValidationHandler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class CategoryTest {
+public class CategoryTest extends UnitTest {
 
     @Test
     public void givenAValidParamsWhenCallNewCategory_thenInstantiateAnewCategory() {

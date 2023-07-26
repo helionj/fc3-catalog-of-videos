@@ -1,5 +1,6 @@
 package com.helion.admin.catalog.domain.video;
 
+import com.helion.admin.catalog.domain.UnitTest;
 import com.helion.admin.catalog.domain.castmember.CastMemberID;
 import com.helion.admin.catalog.domain.category.CategoryID;
 import com.helion.admin.catalog.domain.genre.GenreID;
@@ -9,10 +10,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.Year;
-import java.util.List;
 import java.util.Set;
 
-public class VideoTest {
+public class VideoTest extends UnitTest {
 
     @Test
     public void givenValidParams_whenCallNewVideoShouldInstantiate(){
@@ -144,7 +144,7 @@ public class VideoTest {
     }
 
     @Test
-    public void givenAnValidVideo_whenCallSetTrailer_shouldReturnUpdated(){
+    public void givenAnValidVideo_whenCallUpdateTrailerMedia_shouldReturnUpdated(){
         final var expectedTitle = "System Design Interview";
         final var expectedDescription = """
             Lets design the high-level architecture of youtube - similar to 
@@ -173,10 +173,15 @@ public class VideoTest {
                 expectedMembers
         );
 
+
+
         final var aTrailerMedia = AudioVideoMedia.with("12a","Video.mp4",
-                "/123/videos","123/encoded",MediaStatus.COMPLETED);
+                "/123/videos");
+
+        final var expectedDomainEventSize = 1;
+
         final var actualVideo = Video.with(aVideo);
-        actualVideo.setTrailer(aTrailerMedia);
+        actualVideo.updateTrailerMedia(aTrailerMedia);
         Assertions.assertNotNull(actualVideo);
         Assertions.assertNotNull(actualVideo.getId());
         Assertions.assertEquals(expectedTitle, actualVideo.getTitle());
@@ -197,13 +202,17 @@ public class VideoTest {
         Assertions.assertEquals(actualVideo.getCreatedAt(), aVideo.getCreatedAt());
         Assertions.assertNotNull(actualVideo.getUpdatedAt());
         Assertions.assertTrue(actualVideo.getCreatedAt().isBefore(actualVideo.getUpdatedAt()));
+        Assertions.assertEquals(expectedDomainEventSize, actualVideo.getDomainEvents().size());
+        final var actualEvent = (VideoMediaCreated) actualVideo.getDomainEvents().get(0);
+        Assertions.assertEquals(aVideo.getId().getValue(),actualEvent.resourceId());
+        Assertions.assertEquals(aTrailerMedia.rawLocation(),actualEvent.filePath());
 
         Assertions.assertDoesNotThrow(() -> actualVideo.validate(new ThrowsValidationHandler()));
 
     }
 
     @Test
-    public void givenAnValidVideo_whenCallSetVideo_shouldReturnUpdated(){
+    public void givenAnValidVideo_whenCallUpdateVideoMedia_shouldReturnUpdated(){
         final var expectedTitle = "System Design Interview";
         final var expectedDescription = """
             Lets design the high-level architecture of youtube - similar to 
@@ -217,7 +226,6 @@ public class VideoTest {
         final var expectedCategories = Set.of(CategoryID.unique());
         final var expectedGenres = Set.of(GenreID.unique());
         final var expectedMembers = Set.of(CastMemberID.unique());
-
 
         final var aVideo = Video.newVideo(
                 expectedTitle,
@@ -233,9 +241,10 @@ public class VideoTest {
         );
 
         final var aVideoMedia = AudioVideoMedia.with("12a","Video.mp4",
-                "/123/videos","123/encoded",MediaStatus.COMPLETED);
+                "/123/videos");
+        final var expectedDomainEventSize = 1;
         final var actualVideo = Video.with(aVideo);
-        actualVideo.setVideo(aVideoMedia);
+        actualVideo.updateVideoMedia(aVideoMedia);
         Assertions.assertNotNull(actualVideo);
         Assertions.assertNotNull(actualVideo.getId());
         Assertions.assertEquals(expectedTitle, actualVideo.getTitle());
@@ -256,13 +265,16 @@ public class VideoTest {
         Assertions.assertEquals(actualVideo.getCreatedAt(), aVideo.getCreatedAt());
         Assertions.assertNotNull(actualVideo.getUpdatedAt());
         Assertions.assertTrue(actualVideo.getCreatedAt().isBefore(actualVideo.getUpdatedAt()));
+        final var actualEvent = (VideoMediaCreated) actualVideo.getDomainEvents().get(0);
+        Assertions.assertEquals(aVideo.getId().getValue(),actualEvent.resourceId());
+        Assertions.assertEquals(aVideoMedia.rawLocation(),actualEvent.filePath());
 
         Assertions.assertDoesNotThrow(() -> actualVideo.validate(new ThrowsValidationHandler()));
 
     }
 
     @Test
-    public void givenAnValidVideo_whenCallSetBanner_shouldReturnUpdated(){
+    public void givenAnValidVideo_whenCallUpdateBannerMedia_shouldReturnUpdated(){
         final var expectedTitle = "System Design Interview";
         final var expectedDescription = """
             Lets design the high-level architecture of youtube - similar to 
@@ -292,7 +304,7 @@ public class VideoTest {
         );
 
         final var aBanner = ImageMedia.with("123", "banner", "/image/banners");
-        final var actualVideo = Video.with(aVideo).setBanner(aBanner);
+        final var actualVideo = Video.with(aVideo).updateBannerMedia(aBanner);
         Assertions.assertNotNull(actualVideo);
         Assertions.assertNotNull(actualVideo.getId());
         Assertions.assertEquals(expectedTitle, actualVideo.getTitle());
@@ -318,7 +330,7 @@ public class VideoTest {
 
     }
     @Test
-    public void givenAnValidVideo_whenCallSetThumbnail_shouldReturnUpdated(){
+    public void givenAnValidVideo_whenCallUpdateThumbnailMedia_shouldReturnUpdated(){
         final var expectedTitle = "System Design Interview";
         final var expectedDescription = """
             Lets design the high-level architecture of youtube - similar to 
@@ -349,7 +361,7 @@ public class VideoTest {
 
         final var aThumbnail = ImageMedia.with("123", "banner", "/image/banners");
         final var actualVideo = Video.with(aVideo);
-        actualVideo.setThumbnail(aThumbnail);
+        actualVideo.updateThumbnailMedia(aThumbnail);
         Assertions.assertNotNull(actualVideo);
         Assertions.assertNotNull(actualVideo.getId());
         Assertions.assertEquals(expectedTitle, actualVideo.getTitle());
@@ -375,7 +387,7 @@ public class VideoTest {
 
     }
     @Test
-    public void givenAnValidVideo_whenCallSetThumbnailHalf_shouldReturnUpdated(){
+    public void givenAnValidVideo_whenCallUpdateThumbnailHalfMedia_shouldReturnUpdated(){
         final var expectedTitle = "System Design Interview";
         final var expectedDescription = """
             Lets design the high-level architecture of youtube - similar to 
@@ -406,7 +418,7 @@ public class VideoTest {
 
         final var aThumbnailHalf = ImageMedia.with("123", "banner", "/image/banners");
         final var actualVideo = Video.with(aVideo);
-        actualVideo.setThumbnailHalf(aThumbnailHalf);
+        actualVideo.updateThumbnailHalfMedia(aThumbnailHalf);
         Assertions.assertNotNull(actualVideo);
         Assertions.assertNotNull(actualVideo.getId());
         Assertions.assertEquals(expectedTitle, actualVideo.getTitle());

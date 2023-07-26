@@ -1,10 +1,11 @@
 package com.helion.admin.catalog.domain.castmember;
 
+import com.helion.admin.catalog.domain.UnitTest;
 import com.helion.admin.catalog.domain.exceptions.NotificationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class CastMemberTest {
+public class CastMemberTest extends UnitTest {
 
     @Test
     public void givenAValidParamsWhenCallNewCastMember_thenInstantiateAnewCastMember() {

@@ -1,6 +1,7 @@
 package com.helion.admin.catalog;
 
 import com.helion.admin.catalog.infrastructure.configuration.WebServerConfig;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -13,6 +14,7 @@ import java.lang.annotation.*;
 @ActiveProfiles("test-integration")
 @SpringBootTest(classes = WebServerConfig.class)
 @ExtendWith(MySQLCleanUpExtension.class)
+@Tag("integrationTest")
 public @interface IntegrationTest {
 
 }
