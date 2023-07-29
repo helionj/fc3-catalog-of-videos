@@ -52,7 +52,7 @@ public class DefaultVideoGatewayTest {
     private Genre business;
 
     @BeforeEach
-    private void setUp(){
+    void setUp(){
         wesley = castMemberGateway.create(Fixture.CastMembers.wesley());
         helion = castMemberGateway.create(Fixture.CastMembers.helion());
         aulas = categoryGateway.create(Fixture.Categories.aulas());
