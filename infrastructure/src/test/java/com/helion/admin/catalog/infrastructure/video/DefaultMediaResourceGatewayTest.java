@@ -24,7 +24,7 @@ class DefaultMediaResourceGatewayTest {
     private StorageService storageService;
     
     @BeforeEach
-    private void setUp(){
+    void setUp(){
         storageService().reset();
     }
 
