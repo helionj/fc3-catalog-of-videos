@@ -54,7 +54,7 @@ public class UpdateCategoryUseCaseTestIT {
         Assertions.assertEquals(expectedName, actualCategory.getName());
         Assertions.assertEquals(expectedDescription, actualCategory.getDescription());
         Assertions.assertEquals(expectedIsActive, actualCategory.isActive());
-        Assertions.assertEquals(actualCategory.getCreatedAt(), aCategory.getCreatedAt());
+        Assertions.assertEquals(aCategory.getCreatedAt(), actualCategory.getCreatedAt());
         Assertions.assertNotNull(actualCategory.getUpdatedAt());
         Assertions.assertTrue(actualCategory.getUpdatedAt().isAfter(aCategory.getUpdatedAt()));
         Assertions.assertNull(actualCategory.getDeletedAt());
@@ -108,7 +108,7 @@ public class UpdateCategoryUseCaseTestIT {
         Assertions.assertEquals(expectedName, actualCategory.getName());
         Assertions.assertEquals(expectedDescription, actualCategory.getDescription());
         Assertions.assertEquals(expectedIsActive, actualCategory.isActive());
-        Assertions.assertEquals(actualCategory.getCreatedAt(), aCategory.getCreatedAt());
+        Assertions.assertEquals(aCategory.getCreatedAt(),actualCategory.getCreatedAt());
         Assertions.assertNotNull(actualCategory.getUpdatedAt());
         Assertions.assertTrue(actualCategory.getUpdatedAt().isAfter(aCategory.getUpdatedAt()));
         Assertions.assertNotNull(actualCategory.getDeletedAt());
@@ -141,7 +141,7 @@ public class UpdateCategoryUseCaseTestIT {
         Assertions.assertEquals(aCategory.getName(), actualCategory.getName());
         Assertions.assertEquals(aCategory.getDescription(), actualCategory.getDescription());
         Assertions.assertEquals(aCategory.isActive(), actualCategory.isActive());
-        Assertions.assertEquals(actualCategory.getCreatedAt(), aCategory.getCreatedAt());
+        Assertions.assertEquals(aCategory.getCreatedAt(), actualCategory.getCreatedAt());
         Assertions.assertEquals(aCategory.getUpdatedAt(), actualCategory.getUpdatedAt());
         Assertions.assertNull(actualCategory.getDeletedAt());
 
