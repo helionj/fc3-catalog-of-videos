@@ -1,6 +1,7 @@
 package com.helion.admin.catalog.domain.category;
 
 import com.helion.admin.catalog.domain.AgregateRoot;
+import com.helion.admin.catalog.domain.utils.InstantUtils;
 import com.helion.admin.catalog.domain.validation.ValidationHandler;
 
 import java.time.Instant;
@@ -34,7 +35,7 @@ public class Category extends AgregateRoot<CategoryID> implements Cloneable{
 
     public static Category newCategory(final String aName, final String aDescription, final boolean isActive){
         final var id = CategoryID.unique();
-        final var now = Instant.now();
+        final var now = InstantUtils.now();
         final var deletedAt = isActive ? null : now;
         return new Category(id, aName, aDescription,isActive, now, now,deletedAt);
     }
@@ -69,10 +70,10 @@ public class Category extends AgregateRoot<CategoryID> implements Cloneable{
 
     public Category deactivate() {
         if(this.deletedAt == null){
-            this.deletedAt = Instant.now();
+            this.deletedAt = InstantUtils.now();
         }
         this.isActive = false;
-        this.updatedAt = Instant.now();
+        this.updatedAt = InstantUtils.now();
         return this;
     }
 
@@ -80,7 +81,7 @@ public class Category extends AgregateRoot<CategoryID> implements Cloneable{
 
         this.deletedAt = null;
         this.isActive = true;
-        this.updatedAt = Instant.now();
+        this.updatedAt = InstantUtils.now();
         return this;
     }
     public Category update(String aName, String aDescription, boolean isActive) {
@@ -91,7 +92,7 @@ public class Category extends AgregateRoot<CategoryID> implements Cloneable{
         }
         this.name = aName;
         this.description = aDescription;
-        this.updatedAt= Instant.now();
+        this.updatedAt= InstantUtils.now();
         return this;
     }
     public String getName() {
