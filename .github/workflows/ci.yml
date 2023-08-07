@@ -6,7 +6,6 @@ on:
       - 'feature/**'
       - 'bugfix/**'
       - 'modulos/**'
-      - 'main'
     #Habilitar a gatilho manual através da interface do Github Actions
     workflow-dispatch:
 
