@@ -36,7 +36,7 @@ jobs:
   # Job para buildar a aplicação
   build:
     name: Build runner
-    depends: tests
+    needs: tests
     runs-on: ubuntu-latest
     # Configuração dos passos do Job
     steps:
