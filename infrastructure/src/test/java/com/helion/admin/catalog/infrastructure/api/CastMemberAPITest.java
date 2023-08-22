@@ -1,6 +1,7 @@
 package com.helion.admin.catalog.infrastructure.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.helion.admin.catalog.ApiTest;
 import com.helion.admin.catalog.ControllerTest;
 import com.helion.admin.catalog.application.castmember.create.CreateCastMemberOutput;
 import com.helion.admin.catalog.application.castmember.create.CreateCastMemberUseCase;
@@ -84,6 +85,7 @@ public class CastMemberAPITest {
                 .thenReturn(CreateCastMemberOutput.from(expectedId));
 
         final var request = post("/cast_members")
+                .with(ApiTest.CAST_MEMBERS_JWT)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(this.mapper.writeValueAsString(aInput));
 
@@ -113,6 +115,7 @@ public class CastMemberAPITest {
                 .thenThrow(new NotificationException("Error", Notification.create(new Error(expectedErrorMessage))));
 
         final var request = post("/cast_members")
+                .with(ApiTest.CAST_MEMBERS_JWT)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(aInput));
 
@@ -141,6 +144,7 @@ public class CastMemberAPITest {
                 .thenReturn(CastMemberOutput.from(aMember));
 
         final var request = get("/cast_members/{id}",expectedId)
+                .with(ApiTest.CAST_MEMBERS_JWT)
                 .contentType(MediaType.APPLICATION_JSON);
 
         final var response = this.mvc.perform(request).andDo(MockMvcResultHandlers.print());
@@ -166,6 +170,7 @@ public class CastMemberAPITest {
                 .thenThrow(NotFoundException.with(CastMember.class, expectedId));
 
         final var request = get("/cast_members/{id}",expectedId.getValue())
+                .with(ApiTest.CAST_MEMBERS_JWT)
                 .contentType(MediaType.APPLICATION_JSON);
 
         final var response = this.mvc.perform(request).andDo(MockMvcResultHandlers.print());
@@ -191,6 +196,7 @@ public class CastMemberAPITest {
                 .thenReturn(UpdateCastMemberOutput.from(expectedId.getValue()));
 
         final var request = put("/cast_members/{id}",expectedId.getValue())
+                .with(ApiTest.CAST_MEMBERS_JWT)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(this.mapper.writeValueAsString(aCommand));
@@ -222,6 +228,7 @@ public class CastMemberAPITest {
                 .thenThrow(new NotificationException("Error", Notification.create(new Error(expectedErrorMessage))));
 
         final var request = put("/cast_members/{id}", expectedId.getValue())
+                .with(ApiTest.CAST_MEMBERS_JWT)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(aInput));
 
@@ -252,6 +259,7 @@ public class CastMemberAPITest {
                 .thenThrow(NotFoundException.with(CastMember.class, expectedId));
 
         final var request = put("/cast_members/{id}", expectedId.getValue())
+                .with(ApiTest.CAST_MEMBERS_JWT)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(aCommand));
 
@@ -276,6 +284,7 @@ public class CastMemberAPITest {
         doNothing().when(deleteCastMemberUseCase).execute(any());
 
         final var request = delete("/cast_members/{id}",expectedId)
+                .with(ApiTest.CAST_MEMBERS_JWT)
                 .contentType(MediaType.APPLICATION_JSON);
 
         final var response = this.mvc.perform(request).andDo(MockMvcResultHandlers.print());
@@ -310,6 +319,7 @@ public class CastMemberAPITest {
                 .thenReturn(new Pagination<>(expectedPage,expectedPerPage,expectedTotal,expectedItems));
 
         final var request = get("/cast_members")
+                .with(ApiTest.CAST_MEMBERS_JWT)
                 .queryParam("page", String.valueOf(expectedPage))
                 .queryParam("perPage", String.valueOf(expectedPerPage))
                 .queryParam("sort", expectedSort)
@@ -364,6 +374,7 @@ public class CastMemberAPITest {
                 .thenReturn(new Pagination<>(expectedPage,expectedPerPage,expectedTotal,expectedItems));
 
         final var request = get("/cast_members")
+                .with(ApiTest.CAST_MEMBERS_JWT)
                 .accept(MediaType.APPLICATION_JSON);
 
         final var response = this.mvc.perform(request).andDo(MockMvcResultHandlers.print());

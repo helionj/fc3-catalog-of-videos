@@ -1,6 +1,7 @@
 package com.helion.admin.catalog.infrastructure.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.helion.admin.catalog.ApiTest;
 import com.helion.admin.catalog.ControllerTest;
 import com.helion.admin.catalog.application.genre.create.CreateGenreOutput;
 import com.helion.admin.catalog.application.genre.create.CreateGenreUseCase;
@@ -83,6 +84,7 @@ public class GenreAPITest {
                 .thenReturn(CreateGenreOutput.from(expectedId));
 
         final var request = post("/genres")
+                .with(ApiTest.GENRES_JWT)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(this.mapper.writeValueAsString(aInput));
 
@@ -115,6 +117,7 @@ public class GenreAPITest {
                 .thenThrow(new NotificationException("Error", Notification.create(new Error(expectedErrorMessage))));
 
         final var request = post("/genres")
+                .with(ApiTest.GENRES_JWT)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(aInput));
 
@@ -146,6 +149,7 @@ public class GenreAPITest {
                 .thenReturn(GenreOutput.from(aGenre));
 
         final var request = get("/genres/{id}",expectedId)
+                .with(ApiTest.GENRES_JWT)
                 .contentType(MediaType.APPLICATION_JSON);
 
         final var response = this.mvc.perform(request).andDo(MockMvcResultHandlers.print());
@@ -174,6 +178,7 @@ public class GenreAPITest {
                 .thenThrow(NotFoundException.with(Genre.class, expectedId));
 
         final var request = get("/genres/{id}",expectedId.getValue())
+                .with(ApiTest.GENRES_JWT)
                 .contentType(MediaType.APPLICATION_JSON);;
 
         final var response = this.mvc.perform(request).andDo(MockMvcResultHandlers.print());
@@ -196,6 +201,7 @@ public class GenreAPITest {
         final var aCommand = new UpdateGenreRequest(expectedName, expectedCategories, expectedIsActive);
 
         final var request = put("/genres/{id}",expectedId)
+                .with(ApiTest.GENRES_JWT)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(aCommand));
@@ -231,6 +237,7 @@ public class GenreAPITest {
         final var aCommand = new UpdateGenreRequest(expectedName, expectedCategories, expectedIsActive);
 
         final var request = put("/genres/{id}",expectedId)
+                .with(ApiTest.GENRES_JWT)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(aCommand));
@@ -266,6 +273,7 @@ public class GenreAPITest {
         final var aCommand = new UpdateGenreRequest(expectedName, expectedCategories, expectedIsActive);
 
         final var request = put("/genres/{id}",expectedId)
+                .with(ApiTest.GENRES_JWT)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(aCommand));
@@ -294,6 +302,7 @@ public class GenreAPITest {
         doNothing().when(deleteGenreUseCase).execute(any());
 
         final var request = delete("/genres/{id}",expectedId)
+                .with(ApiTest.GENRES_JWT)
                 .contentType(MediaType.APPLICATION_JSON);
 
         final var response = this.mvc.perform(request).andDo(MockMvcResultHandlers.print());
@@ -329,6 +338,7 @@ public class GenreAPITest {
                 .thenReturn(new Pagination<>(expectedPage,expectedPerPage,expectedTotal,expectedItems));
 
         final var request = get("/genres")
+                .with(ApiTest.GENRES_JWT)
                 .queryParam("page", String.valueOf(expectedPage))
                 .queryParam("perPage", String.valueOf(expectedPerPage))
                 .queryParam("sort", expectedSort)
