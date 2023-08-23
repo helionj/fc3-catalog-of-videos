@@ -13,7 +13,7 @@ public class Main {
     private static final Logger LOG = LoggerFactory.getLogger(Main.class);
     public static void main(String[] args) {
         LOG.info("[step:to-be-init] Inicializando o Spring");
-        System.setProperty(AbstractEnvironment.DEFAULT_PROFILES_PROPERTY_NAME, "production");
+        System.setProperty(AbstractEnvironment.DEFAULT_PROFILES_PROPERTY_NAME, "dev");
         SpringApplication.run(WebServerConfig.class, args);
         LOG.info("[step:initialized] Spring inicializado");
     }
