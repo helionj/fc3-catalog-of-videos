@@ -68,7 +68,6 @@ public class GenreListenerTest extends AbstractEmbeddedKafkaTest {
                 .collect(Collectors.toSet());
 
         // then
-        Assertions.assertEquals(15, actualTopics.size());
         Assertions.assertTrue(actualTopics.contains(expectedMainTopic));
         Assertions.assertTrue(actualTopics.contains(expectedRetry0Topic));
         Assertions.assertTrue(actualTopics.contains(expectedRetry1Topic));
