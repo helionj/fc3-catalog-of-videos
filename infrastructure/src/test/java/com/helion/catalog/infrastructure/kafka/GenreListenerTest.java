@@ -56,11 +56,11 @@ public class GenreListenerTest extends AbstractEmbeddedKafkaTest {
     @Test
     public void testGenresTopics() throws Exception {
         // given
-        final var expectedMainTopic = "adm_videos.adm_videos.genres";
-        final var expectedRetry0Topic = "adm_videos.adm_videos.genres-retry-0";
-        final var expectedRetry1Topic = "adm_videos.adm_videos.genres-retry-1";
-        final var expectedRetry2Topic = "adm_videos.adm_videos.genres-retry-2";
-        final var expectedDLTTopic = "adm_videos.adm_videos.genres-dlt";
+        final var expectedMainTopic = "adm_videos_mysql.adm_videos.genres";
+        final var expectedRetry0Topic = "adm_videos_mysql.adm_videos.genres-retry-0";
+        final var expectedRetry1Topic = "adm_videos_mysql.adm_videos.genres-retry-1";
+        final var expectedRetry2Topic = "adm_videos_mysql.adm_videos.genres-retry-2";
+        final var expectedDLTTopic = "adm_videos_mysql.adm_videos.genres-dlt";
 
         // when
         final var actualTopics = admin().listTopics().listings().get(10, TimeUnit.SECONDS).stream()
@@ -79,11 +79,11 @@ public class GenreListenerTest extends AbstractEmbeddedKafkaTest {
     public void givenInvalidResponsesFromHandlerShouldRetryItUntilGoesToDlt() throws InterruptedException, ExecutionException, TimeoutException {
         final var expectedMaxAttempts = 4;
         final var expectedMaxDLTAttempts = 1;
-        final var expectedMainTopic = "adm_videos.adm_videos.genres";
-        final var expectedRetry0Topic = "adm_videos.adm_videos.genres-retry-0";
-        final var expectedRetry1Topic = "adm_videos.adm_videos.genres-retry-1";
-        final var expectedRetry2Topic = "adm_videos.adm_videos.genres-retry-2";
-        final var expectedDLTTopic = "adm_videos.adm_videos.genres-dlt";
+        final var expectedMainTopic = "adm_videos_mysql.adm_videos.genres";
+        final var expectedRetry0Topic = "adm_videos_mysql.adm_videos.genres-retry-0";
+        final var expectedRetry1Topic = "adm_videos_mysql.adm_videos.genres-retry-1";
+        final var expectedRetry2Topic = "adm_videos_mysql.adm_videos.genres-retry-2";
+        final var expectedDLTTopic = "adm_videos_mysql.adm_videos.genres-dlt";
 
         final var tech = Fixture.Genres.tech();
         final var techEvent = new GenreEvent(tech.id());

@@ -75,11 +75,11 @@ class CategoryListenerTest extends AbstractEmbeddedKafkaTest{
     public void givenInvalidResponsesFromHandlerShouldRetryItUntilGoesToDlt() throws InterruptedException, ExecutionException, TimeoutException {
         final var expectedMaxAttempts = 4;
         final var expectedMaxDLTAttempts = 1;
-        final var expectedMainTopic = "adm_videos.adm_videos.categories";
-        final var expectedRetry0Topic = "adm_videos.adm_videos.categories-retry-0";
-        final var expectedRetry1Topic = "adm_videos.adm_videos.categories-retry-1";
-        final var expectedRetry2Topic = "adm_videos.adm_videos.categories-retry-2";
-        final var expectedDLTTopic = "adm_videos.adm_videos.categories-dlt";
+        final var expectedMainTopic = "adm_videos_mysql.adm_videos.categories";
+        final var expectedRetry0Topic = "adm_videos_mysql.adm_videos.categories-retry-0";
+        final var expectedRetry1Topic = "adm_videos_mysql.adm_videos.categories-retry-1";
+        final var expectedRetry2Topic = "adm_videos_mysql.adm_videos.categories-retry-2";
+        final var expectedDLTTopic = "adm_videos_mysql.adm_videos.categories-dlt";
         final var aulas = Fixture.Categories.aulas();
         final var aulasEvent = new CategoryEvent(aulas.id());
 
