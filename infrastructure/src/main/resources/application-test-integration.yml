@@ -1,18 +1,49 @@
+cache:
+  type: simple
+elasticsearch:
+  uris: http://localhost:9200
+  username: elastic
+  password: elastic
+
+kafka:
+ bootstrap-servers: localhost:9092
+
 keycloak:
+  client-id: fc3-app
+  client-secret: secret
   realm: test
-  host: http://test:8443
+  host: "http://localhost:${wiremock.server.port:8001}"
 
-spring:
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
-  datasource:
-    driver-class-name: org.h2.Driver
-    username: root
-    password: 123456
-    url: jdbc:h2:mem:adm_videos_test;MODE=MYSQL;DATABASE_TO_LOWER=TRUE;
 
-  h2:
-    console:
-      enable: true
-      path: /h2
+rest-client:
+  base-url: "http://localhost:${wiremock.server.port:8001}"
+  categories:
+    read-timeout: 2000
+  genres:
+    read-timeout: 2000
+  videos:
+    read-timeout: 2000
+  keycloak:
+    read-timeout: 2000
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      minimumNumberOfCalls: 3
+      permittedNumberOfCallsInHalfOpenState: 1
+      failureRateThreshold: 50
+      slowCallRateThreshold: 70
+      slowCallDurationThreshold: 500
+
+resilience4j.bulkhead:
+  configs:
+    default:
+      maxConcurrentCalls: 1
+
+resilience4j.retry:
+  configs:
+    default:
+      maxAttempts: 2
+      waitDuration: 100
+
+

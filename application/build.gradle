@@ -3,7 +3,7 @@ plugins {
     id 'java-library'
 }
 
-group 'com.helion.admin.catalog.application'
+group 'com.helion.catalog.application'
 
 
 dependencies {

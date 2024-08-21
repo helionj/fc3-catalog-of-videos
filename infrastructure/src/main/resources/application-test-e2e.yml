@@ -1,29 +1,31 @@
-amqp:
-  admin:
-    auto-create: true
-  host: localhost
-  port: 5672
-  username: adm_videos
-  password: 123456
+cache:
+  type: simple
+elasticsearch:
+  uris: http://localhost:9200
+  username: elastic
+  password: elastic
 
 keycloak:
+  client-id: fc3-app
+  client-secret: secret
   realm: test
-  host: http://test:8443
+  host: "http://localhost:${wiremock.server.port:8001}"
 
 logging:
   level:
     ROOT: info
 
-mysql:
-  username: root
-  password: 123456
-  schema: adm_videos
-  url: localhost:${mysql.port}
+rest-client:
+  base-url: "http://localhost:${wiremock.server.port:8001}"
+  categories:
+    read-timeout: 2000
+  genres:
+    read-timeout: 2000
+  videos:
+    read-timeout: 2000
+  keycloak:
+    read-timeout: 2000
 
-spring:
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
 
 
 

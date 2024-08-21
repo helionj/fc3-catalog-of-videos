@@ -1,12 +1,33 @@
-mysql:
-  username: root
-  password: 123456
-  schema: adm_videos
-  url: localhost:3306
+elasticsearch:
+  uris: http://localhost:9200
+  username: elastic
+  password: elastic
 
+keycloak:
+  client-id: ${KEYCLOAK_CLIENT_ID}
+  client-secret: ${KEYCLOAK_CLIENT_SECRET}
+  realm: ${KEYCLOAK_REALM:fc3-codeflix}
+  host: ${KEYCLOAK_HOST:http://keycloak.internal:8443}
+
+kafka:
+  bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+rest-client:
+  base-url: http://app.catalog.admin:8091
+  keycloak:
+    read-timeout: 1_000
+
+graphql:
+  graphiql: true
 spring:
   autoconfigure:
     exclude:
-      - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+      - org.springframework.boot.autoconfigure.elasticsearch.data.ElasticsearchRepositoriesAutoConfiguration
       - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
       - org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration
+      - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+server:
+  port: 8080
+  undertow:
+    threads:
+      worker: 10
+      io: 2

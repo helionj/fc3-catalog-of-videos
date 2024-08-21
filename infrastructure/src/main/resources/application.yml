@@ -1,34 +1,71 @@
-amqp:
-  admin:
-    auto-create: false
-  queues:
-    video-created:
-      exchange: video.events
-      routing-key: video.created
-      queue: video.created.queue
-    video-encoded:
-      exchange: video.events
-      routing-key: video.encoded
-      queue: video.encoded.queue
+cache:
+  type: cache2k
+  names: admin-categories, admin-genres, admin-videos
+  ttl: 60 #seconds
+  max-entries: 200
 
-google:
-  cloud:
-    credentials: ${GOOGLE_CLOUD_CREDENTIALS}
-    projectId: ${GOOGLE_CLOUD_PROJECT_ID}
-    storage:
-      catalogo-videos:
-        bucket: fc3_catalago_videos
-        connect-timeout: 1000
-        read-timeout: 2000
-        retry-delay: 50
-        retry-max-attempts: 2
-        retry-max-delay: 50
-        retry-multiplier: 1.0
+elasticsearch:
+  uris: http://elastic:9200
+  username: elastic
+  password: elastic
+  connect-timeout: 250
+  socket-timeout: 30_000
 
-logging:
-  level:
-    ROOT: INFO
-    com.helion.admin.catalog: DEBUG
+graphql:
+  graphiql: false
+
+kafka:
+  auto-create-topics: false
+  pool-timeout: 1_000
+  bootstrap-servers: kafka:9092
+  consumers:
+    categories:
+      auto-offset-reset: earliest
+      concurrency: 1
+      id: kafka-listener-categories
+      topics: adm_videos_mysql.adm_videos.categories
+      group-id: catalogo-service
+      max-attempts: 4
+    cast-members:
+      auto-offset-reset: earliest
+      concurrency: 1
+      id: kafka-listener-castmembers
+      topics: adm_videos_mysql.adm_videos.cast_members
+      group-id: catalogo-service
+      max-attempts: 4
+    genres:
+      auto-offset-reset: earliest
+      concurrency: 1
+      id: kafka-listener-genres
+      topics: adm_videos_mysql.adm_videos.genres
+      group-id: catalogo-service
+      max-attempts: 4
+    videos:
+      auto-offset-reset: earliest
+      concurrency: 1
+      id: kafka-listener-videos
+      topics: adm_videos_mysql.adm_videos.videos
+      group-id: catalogo-service
+      max-attempts: 4
+
+
+keycloak:
+  token-uri: /protocol/openid-connect/token
+
+rest-client:
+  categories:
+    base-url: "${rest-client.base-url}/api/categories"
+    read-timeout: 1_000
+  genres:
+    base-url: "${rest-client.base-url}/api/genres"
+    read-timeout: 1_000
+  videos:
+    base-url: "${rest-client.base-url}/api/videos"
+    read-timeout: 1_000
+  keycloak:
+    base-url: "${keycloak.host}/realms/${keycloak.realm}"
+    read-timeout: 4_000
+    request-timeout: 10_000
 
 server:
   port: 8080
@@ -43,34 +80,24 @@ server:
       io: 4
 
 spring:
-  datasource:
-    url: jdbc:mysql://${mysql.url}/${mysql.schema}?useSSL=true&serverTimezone=UTC&characterEncoding=UTF-8
-    username: root
-    password: 123456
-    hikari:
-      auto-commit: false
-      connection-timeout: 5000 # É uma configuração em milliseconds. O ideal é manter baixo para que estoure timeout logo e não prenda as threads.
-      max-lifetime: 600000 # Tempo máximo que uma conexão pode ficar aberta (10 min) - security.
-      maximum-pool-size: 20 # Mantemos até no máx 20 conexões com o banco de dados. O ideal é manter baixo mesmo, pois é algo custoso para o banco gerenciar. https://github.com/brettwooldridge/HikariCP/wiki/About-Pool-Sizing
-      minimum-idle: 10
-      pool-name: master
-  jpa:
-    open-in-view: false
-    show-sql: true
-    hibernate:
-      ddl-auto: none
-    properties:
-      "[hibernate.dialect]": org.hibernate.dialect.MySQL5InnoDBDialect
-      "[hibernate.generate_statistics]": false
-      "[hibernate.connection.provider_disables_autocommit]": true
-      # Para aumentar a performance ao máximo, desabilitamos o auto-commit e o open-in-view.
-      # https://vladmihalcea.com/why-you-should-always-use-hibernate-connection-provider_disables_autocommit-for-resource-local-jpa-transactions/
-  rabbitmq:
-    dynamic: ${amqp.admin.auto-create}
-    host: ${amqp.host}
-    port: ${amqp.port}
-    username: ${amqp.username}
-    password: ${amqp.password}
+  cache:
+    type: ${cache.type}
+    cache-names: ${cache.names}
+  elasticsearch:
+    uris: ${elasticsearch.uris}
+    username: ${elasticsearch.username}
+    password: ${elasticsearch.password}
+    connect-timeout: ${elasticsearch.connect-timeout}
+    socket-timeout: ${elasticsearch.socket-timeout}
+  kafka:
+    auto-create-topics: ${kafka.auto-create-topics}
+    pool-timeout: ${kafka.pool-timeout}
+    bootstrap-servers: ${kafka.bootstrap-servers}
+
+
+  graphql:
+    graphiql:
+      enabled: ${graphql.graphiql}
   servlet:
     multipart:
       max-file-size: 10GB
@@ -82,7 +109,70 @@ spring:
           jwk-set-uri: ${keycloak.host}/realms/${keycloak.realm}/protocol/openid-connect/certs
           issuer-uri: ${keycloak.host}/realms/${keycloak.realm}
 
-storage:
-  catalogo-videos:
-    filename-pattern: type-{type}
-    location-pattern: videoId-{videoId}
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      registerHealthIndicator: true
+      slidingWindowType: COUNT_BASED
+      slidingWindowSize: 100
+      minimumNumberOfCalls: 20
+      permittedNumberOfCallsInHalfOpenState: 10
+      waitDurationInOpenState: 30s
+      failureRateThreshold: 50
+      slowCallRateThreshold: 70
+      slowCallDurationThreshold: 2_000
+      recordExceptions:
+        - com.helion.catalog.domain.exceptions.InternalErrorException
+        - org.springframework.web.client.ResourceAccessException
+        - org.springframework.web.client.HttpServerErrorException.InternalServerError
+        - org.springframework.web.client.HttpServerErrorException.GatewayTimeout
+        - org.springframework.web.client.HttpServerErrorException.ServiceUnavailable
+        - java.net.SocketTimeoutException
+        - java.net.http.HttpConnectTimeoutException
+        - java.net.http.HttpTimeoutException
+        - java.util.concurrent.TimeoutException
+        - java.io.IOException
+    instances:
+      categories:
+        baseConfig: default
+      genres:
+        baseConfig: default
+      videos:
+        baseConfig: default
+
+resilience4j.bulkhead:
+  configs:
+    default:
+      maxConcurrentCalls: 25
+      maxWaitDuration: 100
+    instances:
+      categories:
+        baseConfig: default
+      genres:
+        baseConfig: default
+      videos:
+        baseConfig: default
+
+resilience4j.retry:
+  configs:
+    default:
+      maxAttempts: 3
+      waitDuration: 500
+      retryExceptions:
+        - com.helion.catalog.domain.exceptions.InternalErrorException
+        - org.springframework.web.client.ResourceAccessException
+        - org.springframework.web.client.HttpServerErrorException.InternalServerError
+        - org.springframework.web.client.HttpServerErrorException.GatewayTimeout
+        - org.springframework.web.client.HttpServerErrorException.ServiceUnavailable
+        - java.net.SocketTimeoutException
+        - java.net.http.HttpConnectTimeoutException
+        - java.net.http.HttpTimeoutException
+        - java.util.concurrent.TimeoutException
+        - java.io.IOException
+  instances:
+    categories:
+      baseConfig: default
+    genres:
+      baseConfig: default
+    videos:
+      baseConfig: default

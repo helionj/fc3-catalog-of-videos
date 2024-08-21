@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+  mysql:
+    container_name: adm_videos_mysql_dev
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: adm_videos
+      MYSQL_ROOT_HOST: '%'
+    security_opt:
+      - seccomp:unconfined
+    ports:
+      - 3306:3306
+    volumes:
+      - ../.docker/mysql:/var/lib/mysql:rw
+    networks:
+      - adm_videos_network
+  app:
+    depends_on:
+      - mysql
+    container_name: adm_videos_app_dev
+    #image: helionporto/fc3-admin-catalogo-de-videos-java:main-4
+    build:
+      context: ../../
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    env_file:
+      - .env.local
+    ports:
+      - 8080:8080
+    networks:
+      - adm_videos_network
+
+
+networks:
+  adm_videos_network:
+
+

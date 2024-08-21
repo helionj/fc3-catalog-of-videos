@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - 'main'
+      - main
       - master
       - develop
       - 'feature/**'
@@ -12,7 +12,7 @@ on:
     workflow-dispatch:
 
 env:
-  IMAGE_NAME: helionporto/fc3-admin-catalogo-de-videos-java
+  IMAGE_NAME: helionporto/fc3-catalogo-de-videos-java
 
 jobs:
   # Job para a execução dos testes
