@@ -1,5 +1,5 @@
 elasticsearch:
-  uris: http://localhost:9200
+  uris: http://elastic:9200
   username: elastic
   password: elastic
 
@@ -10,7 +10,8 @@ keycloak:
   host: ${KEYCLOAK_HOST:http://keycloak.internal:8443}
 
 kafka:
-  bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+  bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
+
 rest-client:
   base-url: http://app.catalog.admin:8091
   keycloak:

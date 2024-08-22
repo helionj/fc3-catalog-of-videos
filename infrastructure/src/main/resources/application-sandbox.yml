@@ -12,9 +12,11 @@ keycloak:
   realm: ${KEYCLOAK_REALM:fc3-codeflix}
   host: ${KEYCLOAK_HOST:http://keycloak.internal:8443}
 
+kafka:
+  bootstrap-servers: ${g}
 
 rest-client:
-  base-url: http://app.catalog.admin:8091
+  base-url: ${BASE_URL_ADMIN:app.catalog.admin:8091}
   keycloak:
     read-timeout: 1_000
 
