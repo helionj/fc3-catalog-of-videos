@@ -13,7 +13,7 @@ keycloak:
   host: ${KEYCLOAK_HOST:http://keycloak.internal:8443}
 
 kafka:
-  bootstrap-servers: ${g}
+  bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
 
 rest-client:
   base-url: ${BASE_URL_ADMIN:app.catalog.admin:8091}
