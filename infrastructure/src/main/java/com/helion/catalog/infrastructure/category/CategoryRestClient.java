@@ -43,6 +43,7 @@ public class CategoryRestClient implements HttpClient, CategoryClient {
     @Retry(name = NAMESPACE)
     public Optional<Category> categoryOfId(final String categoryId) {
         final var token = this.getClientCredentials.retrieve();
+        //System.out.println(this.restClient.get().uri("", ""));
         return doGet(categoryId, () ->
                 this.restClient.get()
                     .uri("/{id}", categoryId)
