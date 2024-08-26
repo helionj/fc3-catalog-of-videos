@@ -87,9 +87,9 @@ public class CategoryListener {
         if (Operation.isDelete(op)){
             this.deleteCategoryUseCase.execute(messagePayload.before().id());
         } else {
-            this.categoryGateway.categoryOfId(messagePayload.before().id())
+            this.categoryGateway.categoryOfId(messagePayload.after().id())
                     .ifPresentOrElse(this.saveCategoryUseCase::execute, () -> {
-                        LOG.warn("Category was not found {}", messagePayload.before().id());
+                        LOG.warn("Category was not found {}", messagePayload.after().id());
                     });
         }
     }

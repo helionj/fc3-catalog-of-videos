@@ -13,7 +13,7 @@ kafka:
   bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
 
 rest-client:
-  base-url: http://app.catalog.admin:8091
+  base-url: ${BASE_URL_ADMIN:http://app.catalog.admin:8091}
   keycloak:
     read-timeout: 1_000
 
