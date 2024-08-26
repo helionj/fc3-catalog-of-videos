@@ -80,7 +80,6 @@ public class RestClientConfig {
     private RestClient restClient(final RestClientProperties properties, final ObjectMapper objectMapper) {
         final var factory = new JdkClientHttpRequestFactory();
         factory.setReadTimeout(properties.readTimeout());
-        System.out.println("Base URL: "+properties.baseUrl());
         return RestClient.builder()
                 .baseUrl(properties.baseUrl())
                 .requestFactory(factory)
