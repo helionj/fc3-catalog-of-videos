@@ -6,12 +6,10 @@ import com.helion.catalog.application.category.save.SaveCategoryUseCase;
 import com.helion.catalog.infrastructure.category.CategoryClient;
 import com.helion.catalog.infrastructure.category.models.CategoryEvent;
 import com.helion.catalog.infrastructure.configuration.json.Json;
-import com.helion.catalog.infrastructure.configuration.properties.RestClientProperties;
 import com.helion.catalog.infrastructure.kafka.models.connect.MessageValue;
 import com.helion.catalog.infrastructure.kafka.models.connect.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.DltHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.RetryableTopic;
@@ -31,8 +29,7 @@ public class CategoryListener {
     private final DeleteCategoryUseCase deleteCategoryUseCase;
     private final CategoryClient categoryGateway;
 
-    @Autowired
-    private RestClientProperties properties;
+
 
     public CategoryListener(
             final SaveCategoryUseCase saveCategoryUseCase,
@@ -61,7 +58,6 @@ public class CategoryListener {
     )
     public void onMessage(@Payload(required = false) final String payload, final ConsumerRecordMetadata metadata){
 
-        LOG.info("onMessage - Base URL:"+ properties.baseUrl());
 
         if (payload == null) {
             LOG.info("Message received from Kafka [topic:{}] [partition:{}] [offset:{}]: EMPTY", metadata.topic(), metadata.partition(), metadata.offset());
@@ -84,7 +80,6 @@ public class CategoryListener {
 
     @DltHandler
     public void onDltMessage(@Payload(required = false) final String payload, final ConsumerRecordMetadata metadata){
-        LOG.info("onDltMessage - Base URL:"+ properties.baseUrl());
         if (payload == null) {
             LOG.info("Message received from Kafka [topic:{}] [partition:{}] [offset:{}]: EMPTY", metadata.topic(), metadata.partition(), metadata.offset());
             return;

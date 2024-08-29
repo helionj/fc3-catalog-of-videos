@@ -39,8 +39,13 @@ public class CategoryElasticsearchGateway implements CategoryGateway {
 
     @Override
     public Category save(Category aCategory) {
-        this.categoryRepository.save(CategoryDocument.from(aCategory));
-        return aCategory;
+        try {
+            this.categoryRepository.save(CategoryDocument.from(aCategory));
+            return aCategory;
+        } catch(Exception ex){
+            System.out.println("ERROR: "+ex.getMessage());
+        }
+       return null;
     }
 
     @Override
