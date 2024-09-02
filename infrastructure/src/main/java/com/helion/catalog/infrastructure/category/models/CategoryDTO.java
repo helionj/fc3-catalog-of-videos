@@ -21,6 +21,7 @@ public record CategoryDTO(
         return active != null ? active : true;
     }
     public Category toCategory() {
+        System.out.println("CATEGORIA_DTO: "+id());
         return Category.with(id(), name(), description(), active(), createdAt(), updatedAt(), deletedAt());
     }
 }
