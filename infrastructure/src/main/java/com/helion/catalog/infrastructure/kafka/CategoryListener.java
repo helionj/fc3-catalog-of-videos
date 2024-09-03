@@ -58,7 +58,7 @@ public class CategoryListener {
     )
     public void onMessage(@Payload(required = false) final String payload, final ConsumerRecordMetadata metadata){
 
-
+        LOG.info("FIRST_TIME***");
         if (payload == null) {
             LOG.info("Message received from Kafka [topic:{}] [partition:{}] [offset:{}]: EMPTY", metadata.topic(), metadata.partition(), metadata.offset());
             return;
@@ -80,6 +80,7 @@ public class CategoryListener {
 
     @DltHandler
     public void onDltMessage(@Payload(required = false) final String payload, final ConsumerRecordMetadata metadata){
+        LOG.info("SECOND_TIME***");
         if (payload == null) {
             LOG.info("Message received from Kafka [topic:{}] [partition:{}] [offset:{}]: EMPTY", metadata.topic(), metadata.partition(), metadata.offset());
             return;
