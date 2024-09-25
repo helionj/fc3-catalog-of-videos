@@ -60,7 +60,11 @@ public class GenreRestClient implements HttpClient, GenreClient {
                         .onStatus(is5xx, a5xxHandler(genreId))
                         .body(GenreDTO.class)
         );
-        LOG.info("Genre Recebido:  " + aGenre.get().id() + " "+aGenre.get().name());
+        if(!aGenre.isEmpty()){
+            LOG.info("Genre Recebido:  " + aGenre.get().id() + " "+aGenre.get().name());
+        }else{
+            LOG.info("GENRE is empty");
+        }
         return aGenre;
     }
 
