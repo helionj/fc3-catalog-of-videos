@@ -5,6 +5,9 @@ import com.helion.catalog.infrastructure.configuration.annotations.Genres;
 import com.helion.catalog.infrastructure.genre.models.GenreDTO;
 import com.helion.catalog.infrastructure.kafka.CategoryListener;
 import com.helion.catalog.infrastructure.utils.HttpClient;
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheConfig;
@@ -42,9 +45,9 @@ public class GenreRestClient implements HttpClient, GenreClient {
 
     @Override
     @Cacheable(key="#genreId")
-    //@Bulkhead(name= NAMESPACE)
-    //@CircuitBreaker(name = NAMESPACE)
-    //@Retry(name = NAMESPACE)
+    @Bulkhead(name= NAMESPACE)
+    @CircuitBreaker(name = NAMESPACE)
+    @Retry(name = NAMESPACE)
     public Optional<GenreDTO> genreOfId(String genreId) {
         final var token = this.getClientCredentials.retrieve();
         var aGenre = doGet(genreId, () ->

@@ -1,9 +1,25 @@
 package com.helion.catalog.infrastructure.genre;
 
+import com.github.tomakehurst.wiremock.client.WireMock;
 import com.helion.catalog.AbstractRestClientTest;
+import com.helion.catalog.domain.Fixture;
+import com.helion.catalog.domain.exceptions.InternalErrorException;
 import com.helion.catalog.infrastructure.authentication.ClientCredentialsManager;
+import com.helion.catalog.infrastructure.genre.models.GenreDTO;
+import io.github.resilience4j.bulkhead.BulkheadFullException;
+import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
+import io.github.resilience4j.circuitbreaker.CircuitBreaker;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.http.MediaType;
+import org.testcontainers.shaded.com.google.common.net.HttpHeaders;
+
+import java.util.Map;
+
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 public class GenreRestClientTest extends AbstractRestClientTest {
 
@@ -12,7 +28,7 @@ public class GenreRestClientTest extends AbstractRestClientTest {
 
     @SpyBean
     private ClientCredentialsManager clientCredentialsManager;
-    /*
+
 
     @Test
     public void givenAGenre_whenReceive200FromServer_shouldBeOk() {
@@ -251,7 +267,7 @@ public class GenreRestClientTest extends AbstractRestClientTest {
 
         checkCircuitBreakerState(GENRE, CircuitBreaker.State.OPEN);
 
-        WireMock.verify(3, WireMock.getRequestedFor(WireMock.urlPathEqualTo("/api/genres/%s".formatted(expectedId))));
+        WireMock.verify(3, getRequestedFor(WireMock.urlPathEqualTo("/api/genres/%s".formatted(expectedId))));
     }
 
     @Test
@@ -269,8 +285,8 @@ public class GenreRestClientTest extends AbstractRestClientTest {
 
         Assertions.assertEquals(expectedErrorMessage, actualEx.getMessage());
 
-        WireMock.verify(0, WireMock.getRequestedFor(WireMock.urlPathEqualTo("/api/genres/%s".formatted(expectedId))));
+        WireMock.verify(0, getRequestedFor(WireMock.urlPathEqualTo("/api/genres/%s".formatted(expectedId))));
     }
 
-     */
+
 }
