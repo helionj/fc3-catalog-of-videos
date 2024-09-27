@@ -12,7 +12,7 @@ elasticsearch:
   socket-timeout: 30_000
 
 graphql:
-  graphiql: false
+  graphiql: true
 
 kafka:
   auto-create-topics: false
@@ -90,14 +90,14 @@ spring:
     connect-timeout: ${elasticsearch.connect-timeout}
     socket-timeout: ${elasticsearch.socket-timeout}
   kafka:
-    auto-create-topics: ${kafka.auto-create-topics}
-    pool-timeout: ${kafka.pool-timeout}
+    #auto-create-topics: ${kafka.auto-create-topics}
+    #pool-timeout: ${kafka.pool-timeout}
     bootstrap-servers: ${kafka.bootstrap-servers}
-    producer:
-      properties:
-        max:
-          request:
-            size: 3000000
+    #producer:
+      #properties:
+        #max:
+          #request:
+            #size: 3000000
 
   graphql:
     graphiql:

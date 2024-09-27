@@ -5,9 +5,6 @@ import com.helion.catalog.infrastructure.configuration.annotations.Genres;
 import com.helion.catalog.infrastructure.genre.models.GenreDTO;
 import com.helion.catalog.infrastructure.kafka.CategoryListener;
 import com.helion.catalog.infrastructure.utils.HttpClient;
-import io.github.resilience4j.bulkhead.annotation.Bulkhead;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-import io.github.resilience4j.retry.annotation.Retry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheConfig;
@@ -45,12 +42,11 @@ public class GenreRestClient implements HttpClient, GenreClient {
 
     @Override
     @Cacheable(key="#genreId")
-    @Bulkhead(name= NAMESPACE)
-    @CircuitBreaker(name = NAMESPACE)
-    @Retry(name = NAMESPACE)
+    //@Bulkhead(name= NAMESPACE)
+    //@CircuitBreaker(name = NAMESPACE)
+    //@Retry(name = NAMESPACE)
     public Optional<GenreDTO> genreOfId(String genreId) {
         final var token = this.getClientCredentials.retrieve();
-        LOG.info("TOKEN RECEBIDO: " + token);
         var aGenre = doGet(genreId, () ->
                 this.restClient.get()
                         .uri("/{id}", genreId)
@@ -60,11 +56,7 @@ public class GenreRestClient implements HttpClient, GenreClient {
                         .onStatus(is5xx, a5xxHandler(genreId))
                         .body(GenreDTO.class)
         );
-        if(!aGenre.isEmpty()){
-            LOG.info("Genre Recebido:  " + aGenre.get().id() + " "+aGenre.get().name());
-        }else{
-            LOG.info("GENRE is empty");
-        }
+
         return aGenre;
     }
 
