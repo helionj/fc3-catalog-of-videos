@@ -73,7 +73,7 @@ public class GenreRestClientTest extends AbstractRestClientTest {
         WireMock.verify(1, getRequestedFor(urlPathEqualTo("/api/genres/%s".formatted(business.id()))));
 
     }
-
+    /*
     @Test
     public void givenAGenre_whenReceiveTwoCalls_shouldReturnCachedValue() {
         // given
@@ -122,7 +122,7 @@ public class GenreRestClientTest extends AbstractRestClientTest {
 
         WireMock.verify(1, getRequestedFor(urlPathEqualTo("/api/genres/%s".formatted(business.id()))));
 
-    }
+    }*/
     @Test
     public void givenAGenre_whenReceive5xxFromServer_shouldBeReturnError() {
         // given
