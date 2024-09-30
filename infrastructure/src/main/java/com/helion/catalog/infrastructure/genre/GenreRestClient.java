@@ -10,6 +10,8 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -18,7 +20,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Component
-//@CacheConfig(cacheNames = "admin-genres")
+@CacheConfig(cacheNames = "admin-genres")
 public class GenreRestClient implements HttpClient, GenreClient {
 
     public final static String NAMESPACE = "genres";
@@ -42,7 +44,7 @@ public class GenreRestClient implements HttpClient, GenreClient {
     }
 
     @Override
-    //@Cacheable(key="#genreId")
+    @Cacheable(key="#genreId")
     @Bulkhead(name= NAMESPACE)
     @CircuitBreaker(name = NAMESPACE)
     @Retry(name = NAMESPACE)
