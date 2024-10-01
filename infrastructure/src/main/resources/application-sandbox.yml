@@ -19,7 +19,7 @@ rest-client:
   base-url: ${BASE_URL:http://app.catalog.admin:8091}
   keycloak:
     read-timeout: 1_000
-    request-timeout: 10_000
+
 
 spring:
   autoconfigure:

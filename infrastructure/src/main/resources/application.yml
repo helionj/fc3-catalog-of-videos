@@ -64,7 +64,7 @@ rest-client:
     read-timeout: 1_000
   keycloak:
     base-url: "${keycloak.host}/realms/${keycloak.realm}"
-    read-timeout: 4_000
+    read-timeout: 1_000
     request-timeout: 10_000
 server:
   port: 8080

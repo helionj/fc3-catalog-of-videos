@@ -62,15 +62,13 @@ public class GenreListener {
             return;
         }
 
-        LOG.info("Message received from Kafka [topic:{}], [partition:{}]", metadata.topic(), metadata.partition());
+        LOG.info("Message received from Kafka [topic:{}] [partition:{}] [offset:{}]: {}", metadata.topic(), metadata.partition(), metadata.offset(), payload);
         final var messagePayload =  Json.readValue(payload, GENRE_MESSAGE_TYPE).payload();
         final var op = messagePayload.operation();
 
         if (Operation.isDelete(op)){
             this.deleteGenreUseCase.execute(new DeleteGenreUseCase.Input(messagePayload.before().id()));
         } else {
-            final var genre = this.genreGateway.genreOfId("11853a33345d4f6ba381c1427d51dc08").get();
-            LOG.info("GENRE existe: "+genre.name());
             this.genreGateway.genreOfId(messagePayload.after().id())
                     .map(it -> new SaveGenreUseCase.Input(it.id(), it.name(), it.categoriesId(), it.isActive(), it.createdAt(), it.updatedAt(), it.deletedAt()))
                     .ifPresentOrElse(this.saveGenreUseCase::execute, () -> {
