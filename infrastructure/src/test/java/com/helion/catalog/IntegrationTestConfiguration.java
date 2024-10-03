@@ -29,5 +29,10 @@ public class IntegrationTestConfiguration {
     public VideoRepository videoRepository(){
         return Mockito.mock(VideoRepository.class);
     }
+
+    @Bean
+    public WebGraphQlSecurityInterceptor webGraphQlSecurityInterceptor() {
+        return new WebGraphQlSecurityInterceptor();
+    }
 }
 

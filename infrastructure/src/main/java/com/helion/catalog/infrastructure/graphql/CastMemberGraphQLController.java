@@ -4,11 +4,13 @@ import com.helion.catalog.application.castmember.list.ListCastMemberUseCase;
 import com.helion.catalog.application.castmember.save.SaveCastMemberUseCase;
 import com.helion.catalog.domain.castmember.CastMemberSearchQuery;
 import com.helion.catalog.infrastructure.castmember.GqlCastMemberPresenter;
-import com.helion.catalog.infrastructure.castmember.models.GqlCastMemberInput;
 import com.helion.catalog.infrastructure.castmember.models.GqlCastMember;
+import com.helion.catalog.infrastructure.castmember.models.GqlCastMemberInput;
+import com.helion.catalog.infrastructure.configuration.security.Roles;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -27,6 +29,7 @@ public class CastMemberGraphQLController {
         this.saveCastMemberUseCase = Objects.requireNonNull(saveCastMemberUseCase);
     }
     @QueryMapping
+    @Secured({Roles.ROLE_ADMIN, Roles.ROLE_SUBSCRIBER, Roles.ROLE_CAST_MEMBERS})
     public List<GqlCastMember> castMembers(
             @Argument final String search,
             @Argument final int page,
@@ -41,6 +44,7 @@ public class CastMemberGraphQLController {
     }
 
     @MutationMapping
+    @Secured({Roles.ROLE_ADMIN, Roles.ROLE_SUBSCRIBER, Roles.ROLE_CAST_MEMBERS})
     public GqlCastMember saveCastMember(@Argument GqlCastMemberInput input){
         return GqlCastMemberPresenter.present(this.saveCastMemberUseCase.execute(input.toCastMember()));
     }

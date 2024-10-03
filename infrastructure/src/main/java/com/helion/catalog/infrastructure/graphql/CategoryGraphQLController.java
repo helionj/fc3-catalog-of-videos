@@ -4,11 +4,13 @@ import com.helion.catalog.application.category.list.ListCategoryUseCase;
 import com.helion.catalog.application.category.save.SaveCategoryUseCase;
 import com.helion.catalog.domain.category.CategorySearchQuery;
 import com.helion.catalog.infrastructure.category.GqlCategoryPresenter;
-import com.helion.catalog.infrastructure.category.models.GqlCategoryInput;
 import com.helion.catalog.infrastructure.category.models.GqlCategory;
+import com.helion.catalog.infrastructure.category.models.GqlCategoryInput;
+import com.helion.catalog.infrastructure.configuration.security.Roles;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -27,6 +29,7 @@ public class CategoryGraphQLController {
         this.saveCategoryUseCase = Objects.requireNonNull(saveCategoryUseCase);
     }
     @QueryMapping
+    @Secured({Roles.ROLE_ADMIN, Roles.ROLE_SUBSCRIBER, Roles.ROLE_CATEGORIES})
     public List<GqlCategory> categories(
             @Argument final String search,
             @Argument final int page,
@@ -41,6 +44,7 @@ public class CategoryGraphQLController {
     }
 
     @MutationMapping
+    @Secured({Roles.ROLE_ADMIN, Roles.ROLE_SUBSCRIBER, Roles.ROLE_CATEGORIES})
     public GqlCategory saveCategory(@Argument GqlCategoryInput input){
         return GqlCategoryPresenter.present(this.saveCategoryUseCase.execute(input.toCategory()));
     }
